@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import MergePdfTool from "@/components/tools/MergePdfTool";
 import ImageToPdfTool from "@/components/tools/ImageToPdfTool";
+import PagesPerSheetTool from "@/components/tools/PagesPerSheetTool";
 
 const tools = [
   {
@@ -133,6 +134,8 @@ export default function PdfToolsPage() {
                 <MergePdfTool />
               ) : activeTool.id === "image-to-pdf" ? (
                 <ImageToPdfTool />
+              ) : activeTool.id === "pages-per-sheet" ? (
+                <PagesPerSheetTool />
               ) : (
                 <>
                   {/* Static Placeholder for other tools */}
