@@ -1,14 +1,8 @@
-"use client";
-
-import { useState } from "react";
 import Link from "next/link";
-import MergePdfTool from "@/components/tools/MergePdfTool";
-import ImageToPdfTool from "@/components/tools/ImageToPdfTool";
-import PagesPerSheetTool from "@/components/tools/PagesPerSheetTool";
 
 const tools = [
   {
-    id: "merge-pdf",
+    id: "merge",
     title: "Merge PDF",
     description: "Combine multiple PDF files into one single document.",
     icon: (
@@ -20,9 +14,7 @@ const tools = [
     ),
     gradient: "from-rose-500 to-pink-500",
     shadow: "shadow-rose-500/20",
-    instructions: "Drag and drop two or more PDF files below. They will be merged in the order they appear.",
   },
-
   {
     id: "image-to-pdf",
     title: "Image to PDF",
@@ -36,7 +28,6 @@ const tools = [
     ),
     gradient: "from-blue-500 to-cyan-500",
     shadow: "shadow-blue-500/20",
-    instructions: "Select JPG, PNG, or other image files to combine them into a single PDF document.",
   },
   {
     id: "pages-per-sheet",
@@ -51,15 +42,40 @@ const tools = [
     ),
     gradient: "from-emerald-500 to-teal-500",
     shadow: "shadow-emerald-500/20",
-    instructions: "Upload a PDF document to condense multiple pages onto a single sheet.",
+  },
+  {
+    id: "extract-pages",
+    title: "Extract Pages",
+    description: "Extract specific pages from your PDF file into a new document.",
+    icon: (
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+        <path d="M14 2v6h6" />
+        <line x1="16" y1="13" x2="8" y2="13" />
+        <line x1="16" y1="17" x2="8" y2="17" />
+        <polyline points="10 9 9 9 8 9" />
+      </svg>
+    ),
+    gradient: "from-violet-500 to-fuchsia-500",
+    shadow: "shadow-violet-500/20",
+  },
+  {
+    id: "compress",
+    title: "Compress PDF",
+    description: "Significantly reduce your PDF file size locally in your browser to make it easier to share.",
+    icon: (
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242" />
+        <path d="M12 12v9" />
+        <path d="m8 17 4 4 4-4" />
+      </svg>
+    ),
+    gradient: "from-amber-500 to-orange-500",
+    shadow: "shadow-amber-500/20",
   },
 ];
 
 export default function PdfToolsPage() {
-  const [activeToolId, setActiveToolId] = useState<string | null>(null);
-
-  const activeTool = tools.find((t) => t.id === activeToolId);
-
   return (
     <div className="flex flex-col items-center">
       {/* Header */}
@@ -73,20 +89,15 @@ export default function PdfToolsPage() {
       </section>
 
       {/* Tools Grid */}
-      <section className="w-full max-w-5xl mx-auto px-4 sm:px-6 mb-8" id="pdf-tools-grid">
+      <section className="w-full max-w-5xl mx-auto px-4 sm:px-6 mb-24" id="pdf-tools-grid">
         <div className="grid sm:grid-cols-2 gap-6">
           {tools.map((tool, i) => {
-            const isActive = activeToolId === tool.id;
             return (
-              <button
+              <Link
                 key={tool.id}
-                onClick={() => setActiveToolId(tool.id)}
-                className={`glass-card rounded-2xl p-8 text-left group transition-all duration-300 ${
-                  isActive
-                    ? `ring-2 ring-offset-2 ring-offset-[#0f172a] ring-sky-500 bg-white/[0.08]`
-                    : "hover:bg-white/[0.06] hover:-translate-y-1"
-                }`}
-                style={!isActive ? { animation: `slide-up 0.5s ease-out ${(i + 2) * 100}ms forwards`, opacity: 0 } : {}}
+                href={`/pdf-tools/${tool.id}`}
+                className="glass-card rounded-2xl p-8 text-left group transition-all duration-300 hover:bg-white/[0.06] hover:-translate-y-1"
+                style={{ animation: `slide-up 0.5s ease-out ${(i + 2) * 100}ms forwards`, opacity: 0 }}
               >
                 <div className="flex items-start gap-5">
                   <div
@@ -103,77 +114,11 @@ export default function PdfToolsPage() {
                     </p>
                   </div>
                 </div>
-              </button>
+              </Link>
             );
           })}
         </div>
       </section>
-
-      {/* Active Tool Panel */}
-      {activeTool && (
-        <section className="w-full max-w-4xl mx-auto px-4 sm:px-6 pb-24 animate-slide-up" id="active-tool-panel">
-          <div className="glass-card rounded-3xl p-8 sm:p-10 border border-white/[0.1] shadow-2xl relative overflow-hidden">
-            
-            {/* Subtle background glow based on active tool */}
-            <div className={`absolute -top-32 -right-32 w-64 h-64 rounded-full bg-gradient-to-br ${activeTool.gradient} blur-[100px] opacity-20 pointer-events-none`} />
-
-            <div className="relative z-10 flex flex-col gap-6">
-              {/* Panel Header */}
-              <div className="flex items-center gap-4 border-b border-white/10 pb-6">
-                <div className={`inline-flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br ${activeTool.gradient} shadow-lg text-white`}>
-                  {activeTool.icon}
-                </div>
-                <div>
-                  <h2 className="text-2xl font-bold text-white">{activeTool.title}</h2>
-                  <p className="text-sm text-slate-300 mt-1">{activeTool.instructions}</p>
-                </div>
-              </div>
-
-              {/* Dynamic Tool Component */}
-              {activeTool.id === "merge-pdf" ? (
-                <MergePdfTool />
-              ) : activeTool.id === "image-to-pdf" ? (
-                <ImageToPdfTool />
-              ) : activeTool.id === "pages-per-sheet" ? (
-                <PagesPerSheetTool />
-              ) : (
-                <>
-                  {/* Static Placeholder for other tools */}
-                  <div className="mt-4 border-2 border-dashed border-slate-600 hover:border-brand-400 rounded-2xl p-12 text-center transition-colors duration-300 bg-slate-900/50 flex flex-col items-center justify-center group cursor-pointer">
-                    <div className="h-16 w-16 rounded-full bg-slate-800 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-                      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-slate-400 group-hover:text-brand-400 transition-colors">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                        <polyline points="17 8 12 3 7 8" />
-                        <line x1="12" y1="3" x2="12" y2="15" />
-                      </svg>
-                    </div>
-                    <h3 className="text-lg font-semibold text-white mb-2">Drag and drop files here</h3>
-                    <p className="text-sm text-slate-400">or click to browse your files</p>
-                  </div>
-
-                  {/* Action Buttons Placeholder */}
-                  <div className="mt-4 flex flex-col sm:flex-row justify-end gap-4">
-                    <button className="btn-secondary gap-2" disabled>
-                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                        <polyline points="7 10 12 15 17 10" />
-                        <line x1="12" y1="15" x2="12" y2="3" />
-                      </svg>
-                      Download Output
-                    </button>
-                    <button className="btn-primary gap-2">
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <polyline points="20 6 9 17 4 12" />
-                      </svg>
-                      Process Files
-                    </button>
-                  </div>
-                </>
-              )}
-            </div>
-          </div>
-        </section>
-      )}
     </div>
   );
 }

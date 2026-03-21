@@ -4,7 +4,7 @@ const tools = [
   {
     title: "Merge PDF",
     description: "Combine multiple PDF files into one single document.",
-    href: "/pdf-tools",
+    href: "/pdf-tools/merge",
     icon: (
       <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
         <rect x="2" y="7" width="8" height="14" rx="1" />
@@ -18,7 +18,7 @@ const tools = [
   {
     title: "Image to PDF",
     description: "Adjust orientation and margins. Convert your images to PDFs in seconds.",
-    href: "/pdf-tools",
+    href: "/pdf-tools/image-to-pdf",
     icon: (
       <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
         <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
@@ -31,7 +31,7 @@ const tools = [
   {
     title: "Pages per Sheet",
     description: "Print multiple pages on a single sheet of paper to save resources.",
-    href: "/pdf-tools",
+    href: "/pdf-tools/pages-per-sheet",
     icon: (
       <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
         <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
@@ -40,6 +40,34 @@ const tools = [
       </svg>
     ),
     gradient: "from-emerald-500 to-teal-500",
+  },
+  {
+    title: "Extract Pages",
+    description: "Extract specific pages from your PDF file into a new document.",
+    href: "/pdf-tools/extract-pages",
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+        <path d="M14 2v6h6" />
+        <line x1="16" y1="13" x2="8" y2="13" />
+        <line x1="16" y1="17" x2="8" y2="17" />
+        <polyline points="10 9 9 9 8 9" />
+      </svg>
+    ),
+    gradient: "from-violet-500 to-fuchsia-500",
+  },
+  {
+    title: "Compress PDF",
+    description: "Significantly reduce your PDF file size locally in your browser to make it easier to share.",
+    href: "/pdf-tools/compress",
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242" />
+        <path d="M12 12v9" />
+        <path d="m8 17 4 4 4-4" />
+      </svg>
+    ),
+    gradient: "from-amber-500 to-orange-500",
   },
   {
     title: "Resume Builder",
