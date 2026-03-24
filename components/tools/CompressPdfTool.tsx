@@ -77,17 +77,17 @@ export default function CompressPdfTool() {
         maxFiles={1}
         title="Select or drop a PDF here"
         description="Upload a PDF to reduce its file size locally in your browser."
-        iconColor="group-hover:text-amber-400 group-hover:bg-amber-500/10"
+        iconColor="group-hover:text-brand-400 group-hover:bg-brand-500/10"
       />
 
       {files.length > 0 && (
-        <div className="bg-slate-900/30 rounded-2xl p-6 sm:p-8 border border-white/[0.05] animate-fade-in flex flex-col gap-6">
+        <div className="bg-surface-900/30 rounded-2xl p-6 sm:p-8 border border-white/[0.05] animate-fade-in flex flex-col gap-6">
           <div className="pb-6 border-b border-white/10 flex items-center justify-between">
             <div>
               <h3 className="text-lg font-semibold text-white">Compression Settings</h3>
-              <p className="text-sm text-amber-400/80 mt-1">Note: Compression reduces image quality to decrease file size.</p>
+              <p className="text-sm text-brand-400/80 mt-1">Note: Compression reduces image quality to decrease file size.</p>
             </div>
-            <div className="bg-slate-800 text-slate-300 px-3 py-1.5 rounded-lg text-sm font-semibold ring-1 ring-white/10">
+            <div className="bg-surface-800 text-surface-200 px-3 py-1.5 rounded-lg text-sm font-semibold ring-1 ring-white/10">
               Original: {formatBytes(originalSize)}
             </div>
           </div>
@@ -99,21 +99,21 @@ export default function CompressPdfTool() {
                 onClick={() => setCompressionLevel(tier.level)}
                 className={`flex flex-col text-left p-4 rounded-xl border transition-all duration-300 ${
                   compressionLevel === tier.level
-                    ? "bg-amber-500/10 border-amber-500/50 shadow-[0_0_15px_rgba(245,158,11,0.1)]"
-                    : "bg-slate-800/50 border-slate-700 hover:border-slate-500 hover:bg-slate-800"
+                    ? "bg-brand-500/10 border-brand-500/50 shadow-[0_0_15px_rgba(233,3,2,0.1)]"
+                    : "bg-surface-800/50 border-surface-700 hover:border-surface-200/30 hover:bg-surface-800"
                 }`}
               >
                 <div className="flex items-center justify-between mb-2 w-full">
-                  <span className={`font-semibold ${compressionLevel === tier.level ? "text-amber-400" : "text-slate-200"}`}>
+                  <span className={`font-semibold ${compressionLevel === tier.level ? "text-brand-400" : "text-surface-50"}`}>
                     {tier.title}
                   </span>
                   <div className={`shrink-0 w-4 h-4 rounded-full border-2 flex items-center justify-center ${
-                    compressionLevel === tier.level ? "border-amber-400" : "border-slate-500"
+                    compressionLevel === tier.level ? "border-brand-400" : "border-surface-200/50"
                   }`}>
-                    {compressionLevel === tier.level && <div className="w-2 h-2 rounded-full bg-amber-400" />}
+                    {compressionLevel === tier.level && <div className="w-2 h-2 rounded-full bg-brand-400" />}
                   </div>
                 </div>
-                <p className="text-xs text-slate-400 leading-relaxed">{tier.desc}</p>
+                <p className="text-xs text-surface-200 leading-relaxed">{tier.desc}</p>
               </button>
             ))}
           </div>
@@ -155,8 +155,8 @@ export default function CompressPdfTool() {
             disabled={files.length === 0 || isProcessing}
             className={`inline-flex items-center justify-center px-6 py-3 rounded-xl font-medium text-white transition-all duration-300 ${
               files.length === 0 || isProcessing
-                ? "bg-slate-700 cursor-not-allowed text-slate-400"
-                : "bg-gradient-to-r from-amber-500 to-orange-500 hover:-translate-y-0.5 shadow-[0_4px_15px_rgba(245,158,11,0.3)] hover:shadow-[0_6px_25px_rgba(245,158,11,0.45)]"
+                ? "bg-surface-700 cursor-not-allowed text-surface-200"
+                : "bg-gradient-to-r from-brand-500 to-red-500 hover:-translate-y-0.5 shadow-[0_4px_15px_rgba(233,3,2,0.3)] hover:shadow-[0_6px_25px_rgba(233,3,2,0.45)]"
             }`}
           >
             {isProcessing ? (

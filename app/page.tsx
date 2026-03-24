@@ -12,7 +12,7 @@ const tools = [
         <path d="M10 14h4" />
       </svg>
     ),
-    gradient: "from-rose-500 to-pink-500",
+    gradient: "from-brand-500 to-red-700",
   },
 
   {
@@ -26,7 +26,7 @@ const tools = [
         <polyline points="21 15 16 10 5 21" />
       </svg>
     ),
-    gradient: "from-blue-500 to-cyan-500",
+    gradient: "from-red-600 to-brand-500",
   },
   {
     title: "Pages per Sheet",
@@ -39,7 +39,7 @@ const tools = [
         <line x1="3" y1="12" x2="21" y2="12" />
       </svg>
     ),
-    gradient: "from-emerald-500 to-teal-500",
+    gradient: "from-brand-500 to-rose-600",
   },
   {
     title: "Extract Pages",
@@ -54,7 +54,7 @@ const tools = [
         <polyline points="10 9 9 9 8 9" />
       </svg>
     ),
-    gradient: "from-violet-500 to-fuchsia-500",
+    gradient: "from-red-800 to-brand-500",
   },
   {
     title: "Compress PDF",
@@ -67,7 +67,7 @@ const tools = [
         <path d="m8 17 4 4 4-4" />
       </svg>
     ),
-    gradient: "from-amber-500 to-orange-500",
+    gradient: "from-brand-500 to-red-500",
   },
   {
     title: "Resume Builder",
@@ -81,43 +81,43 @@ const tools = [
         <path d="M16 3.13a4 4 0 0 1 0 7.75" />
       </svg>
     ),
-    gradient: "from-brand-500 to-purple-500",
+    gradient: "from-red-700 to-brand-500",
   },
 ];
 
 export default function HomePage() {
   return (
     <div className="flex flex-col items-center">
-      {/* Header Section */}
-      <section className="w-full flex flex-col items-center pt-20 pb-16 px-4 sm:px-6 text-center">
-        <h1 className="animate-fade-in opacity-0 text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight">
+      {/* Hero Section */}
+      <section className="w-full flex flex-col items-center pt-10 sm:pt-16 md:pt-20 pb-8 sm:pb-12 md:pb-16 px-4 sm:px-6 text-center">
+        <h1 className="animate-fade-in opacity-0 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight">
           Tools for <span className="text-gradient">Students</span>
         </h1>
-        <p className="animate-fade-in opacity-0 animate-delay-100 mt-5 text-lg sm:text-xl text-slate-400 max-w-2xl leading-relaxed">
+        <p className="animate-fade-in opacity-0 animate-delay-100 mt-3 sm:mt-5 text-base sm:text-lg md:text-xl text-surface-200 max-w-2xl leading-relaxed">
           Everything you need to succeed. Manage documents and craft your professional profile — all secure, right in your browser.
         </p>
       </section>
 
       {/* Grid Section */}
-      <section className="w-full max-w-6xl mx-auto px-4 sm:px-6 pb-24" id="tools-grid">
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <section className="w-full max-w-6xl mx-auto px-4 sm:px-6 pb-16 sm:pb-24" id="tools-grid">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {tools.map((tool, i) => (
             <Link
               key={tool.title}
               href={tool.href}
-              className={`glass-card rounded-2xl p-8 group animate-slide-up opacity-0`}
+              className={`glass-card rounded-2xl p-5 sm:p-8 group animate-slide-up opacity-0`}
               style={{ animationDelay: `${(i + 2) * 100}ms` }}
               id={`tool-card-${tool.title.toLowerCase().replace(/ /g, "-")}`}
             >
               <div
-                className={`inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br ${tool.gradient} shadow-lg text-white mb-6 transition-transform duration-300 group-hover:scale-110`}
+                className={`inline-flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-xl sm:rounded-2xl bg-gradient-to-br ${tool.gradient} shadow-lg text-white mb-4 sm:mb-6 transition-transform duration-300 group-hover:scale-110`}
               >
                 {tool.icon}
               </div>
-              <h3 className="text-xl font-bold text-white mb-3 tracking-tight">
+              <h3 className="text-lg sm:text-xl font-bold text-white mb-2 sm:mb-3 tracking-tight">
                 {tool.title}
               </h3>
-              <p className="text-slate-400 leading-relaxed text-sm">
+              <p className="text-surface-200 leading-relaxed text-sm">
                 {tool.description}
               </p>
             </Link>

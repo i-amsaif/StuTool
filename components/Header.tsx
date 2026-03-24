@@ -19,21 +19,15 @@ export default function Header() {
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 group" id="header-logo">
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-brand-500 to-purple-500 shadow-lg shadow-brand-500/20 transition-transform duration-300 group-hover:scale-105">
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="white"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
-              <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
-            </svg>
-          </div>
+          <img
+            src="/logo.png"
+            alt="StuTool Logo"
+            width={36}
+            height={36}
+            draggable={false}
+            onContextMenu={(e) => e.preventDefault()}
+            className="transition-transform duration-300 group-hover:scale-110 select-none pointer-events-none"
+          />
           <span className="text-xl font-bold tracking-tight text-white">
             Stu<span className="text-gradient">Tool</span>
           </span>
@@ -51,12 +45,12 @@ export default function Header() {
                 className={`relative px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
                   isActive
                     ? "text-white bg-white/[0.08]"
-                    : "text-slate-400 hover:text-white hover:bg-white/[0.04]"
+                    : "text-surface-200 hover:text-white hover:bg-white/[0.04]"
                 }`}
               >
                 {link.name}
                 {isActive && (
-                  <span className="absolute bottom-0 left-1/2 -translate-x-1/2 h-[2px] w-6 rounded-full bg-gradient-to-r from-brand-400 to-purple-400" />
+                  <span className="absolute bottom-0 left-1/2 -translate-x-1/2 h-[2px] w-6 rounded-full bg-gradient-to-r from-brand-500 to-red-400" />
                 )}
               </Link>
             );
@@ -71,17 +65,17 @@ export default function Header() {
           id="mobile-menu-btn"
         >
           <span
-            className={`block h-0.5 w-5 rounded-full bg-slate-300 transition-all duration-300 ${
+            className={`block h-0.5 w-5 rounded-full bg-surface-200 transition-all duration-300 ${
               mobileOpen ? "rotate-45 translate-y-[3px]" : ""
             }`}
           />
           <span
-            className={`block h-0.5 w-5 rounded-full bg-slate-300 transition-all duration-300 mt-1 ${
+            className={`block h-0.5 w-5 rounded-full bg-surface-200 transition-all duration-300 mt-1 ${
               mobileOpen ? "opacity-0" : ""
             }`}
           />
           <span
-            className={`block h-0.5 w-5 rounded-full bg-slate-300 transition-all duration-300 mt-1 ${
+            className={`block h-0.5 w-5 rounded-full bg-surface-200 transition-all duration-300 mt-1 ${
               mobileOpen ? "-rotate-45 -translate-y-[7px]" : ""
             }`}
           />
@@ -106,7 +100,7 @@ export default function Header() {
                 className={`px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 ${
                   isActive
                     ? "text-white bg-white/[0.08]"
-                    : "text-slate-400 hover:text-white hover:bg-white/[0.04]"
+                    : "text-surface-200 hover:text-white hover:bg-white/[0.04]"
                 }`}
               >
                 {link.name}

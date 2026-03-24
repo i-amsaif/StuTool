@@ -71,23 +71,23 @@ export default function ExtractPagesTool() {
         maxFiles={1}
         title="Select or drop a PDF here"
         description="Upload a single PDF file to extract specific pages."
-        iconColor="group-hover:text-violet-400 group-hover:bg-violet-500/10"
+        iconColor="group-hover:text-brand-400 group-hover:bg-brand-500/10"
       />
 
       {files.length > 0 && pageCount !== null && (
-        <div className="bg-slate-900/30 rounded-2xl p-6 sm:p-8 border border-white/[0.05] animate-fade-in flex flex-col gap-6">
+        <div className="bg-surface-900/30 rounded-2xl p-6 sm:p-8 border border-white/[0.05] animate-fade-in flex flex-col gap-6">
           <div className="pb-6 border-b border-white/10 flex items-center justify-between">
             <div>
               <h3 className="text-lg font-semibold text-white">Select Pages</h3>
-              <p className="text-sm text-slate-400">Enter page numbers or ranges you wish to extract.</p>
+              <p className="text-sm text-surface-200">Enter page numbers or ranges you wish to extract.</p>
             </div>
-            <div className="bg-violet-500/10 text-violet-400 px-3 py-1 rounded-full text-xs font-semibold ring-1 ring-violet-500/20">
+            <div className="bg-brand-500/10 text-brand-400 px-3 py-1 rounded-full text-xs font-semibold ring-1 ring-brand-500/20">
               {pageCount} Page{pageCount !== 1 && "s"} Total
             </div>
           </div>
 
           <div className="flex flex-col gap-4">
-            <label className="text-sm font-medium text-slate-300">
+            <label className="text-sm font-medium text-surface-200">
               Page Selection (e.g., 1-5, 8, 11-13)
             </label>
             <input 
@@ -95,7 +95,7 @@ export default function ExtractPagesTool() {
               value={pageInput}
               onChange={(e) => setPageInput(e.target.value)}
               placeholder={`e.g. 1-${Math.min(5, pageCount)}`} 
-              className="bg-slate-800 border border-slate-700 text-slate-200 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-violet-500/50 focus:border-violet-500 transition-all placeholder-slate-500"
+              className="bg-surface-800 border border-surface-700 text-surface-50 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-brand-500/50 focus:border-brand-500 transition-all placeholder-surface-200/50"
             />
             
             {/* Chips Display */}
@@ -103,13 +103,13 @@ export default function ExtractPagesTool() {
               {selectedPages.length > 0 ? (
                 <div className="flex flex-wrap gap-2">
                   {selectedPages.map(num => (
-                    <span key={num} className="bg-slate-800 border border-slate-700 text-slate-300 px-3 py-1 rounded-lg text-sm font-medium shadow-sm">
+                    <span key={num} className="bg-surface-800 border border-surface-700 text-surface-200 px-3 py-1 rounded-lg text-sm font-medium shadow-sm">
                       Page {num}
                     </span>
                   ))}
                 </div>
               ) : (
-                <p className="text-sm text-slate-500 italic">No valid pages selected yet. Please enter a valid range or number.</p>
+                <p className="text-sm text-surface-200/50 italic">No valid pages selected yet. Please enter a valid range or number.</p>
               )}
             </div>
           </div>
@@ -137,8 +137,8 @@ export default function ExtractPagesTool() {
             disabled={files.length === 0 || selectedPages.length === 0 || isProcessing}
             className={`inline-flex items-center justify-center px-6 py-3 rounded-xl font-medium text-white transition-all duration-300 ${
               files.length === 0 || selectedPages.length === 0 || isProcessing
-                ? "bg-slate-700 cursor-not-allowed text-slate-400"
-                : "bg-gradient-to-r from-violet-500 to-fuchsia-500 hover:-translate-y-0.5 shadow-[0_4px_15px_rgba(139,92,246,0.3)] hover:shadow-[0_6px_25px_rgba(139,92,246,0.45)]"
+                ? "bg-surface-700 cursor-not-allowed text-surface-200"
+                : "bg-gradient-to-r from-red-800 to-brand-500 hover:-translate-y-0.5 shadow-[0_4px_15px_rgba(233,3,2,0.3)] hover:shadow-[0_6px_25px_rgba(233,3,2,0.45)]"
             }`}
           >
             {isProcessing ? (

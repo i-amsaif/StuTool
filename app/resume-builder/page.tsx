@@ -26,47 +26,47 @@ const steps = [
 
 const templates = [
   { name: "Classic", accent: "from-brand-500 to-brand-600" },
-  { name: "Modern", accent: "from-violet-500 to-purple-600" },
-  { name: "Minimal", accent: "from-slate-400 to-slate-500" },
-  { name: "Creative", accent: "from-rose-500 to-pink-500" },
+  { name: "Modern", accent: "from-red-700 to-brand-500" },
+  { name: "Minimal", accent: "from-surface-200 to-surface-700" },
+  { name: "Creative", accent: "from-brand-500 to-rose-600" },
 ];
 
 export default function ResumeBuilderPage() {
   return (
     <div className="flex flex-col items-center">
       {/* Header */}
-      <section className="w-full flex flex-col items-center pt-16 pb-12 px-4 sm:px-6">
-        <div className="animate-fade-in opacity-0 inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-medium bg-brand-500/10 text-brand-300 border border-brand-500/20 mb-6">
+      <section className="w-full flex flex-col items-center pt-10 sm:pt-14 md:pt-16 pb-6 sm:pb-10 md:pb-12 px-4 sm:px-6">
+        <div className="animate-fade-in opacity-0 inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 rounded-full text-xs font-medium bg-brand-500/10 text-brand-300 border border-brand-500/20 mb-4 sm:mb-6">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
             <circle cx="9" cy="7" r="4" />
           </svg>
           Professional templates
         </div>
-        <h1 className="animate-fade-in opacity-0 animate-delay-100 text-center text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight">
+        <h1 className="animate-fade-in opacity-0 animate-delay-100 text-center text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight">
           <span className="text-gradient">Resume</span> Builder
         </h1>
-        <p className="animate-fade-in opacity-0 animate-delay-200 mt-4 text-center text-lg text-slate-400 max-w-xl">
+        <p className="animate-fade-in opacity-0 animate-delay-200 mt-3 sm:mt-4 text-center text-base sm:text-lg text-surface-200 max-w-xl">
           Create a stunning resume that gets you noticed — no design skills needed.
         </p>
       </section>
 
       {/* How it works */}
-      <section className="w-full max-w-4xl mx-auto px-4 sm:px-6 pb-16" id="how-it-works">
-        <div className="grid sm:grid-cols-3 gap-6">
+      <section className="w-full max-w-4xl mx-auto px-4 sm:px-6 pb-10 sm:pb-16" id="how-it-works">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
           {steps.map((s, i) => (
             <div
               key={s.step}
-              className="glass-card rounded-2xl p-6 text-center animate-slide-up opacity-0"
+              className="glass-card rounded-2xl p-5 sm:p-6 text-center animate-slide-up opacity-0"
               style={{ animationDelay: `${(i + 3) * 100}ms` }}
             >
-              <div className="text-3xl font-extrabold text-gradient mb-3">
+              <div className="text-2xl sm:text-3xl font-extrabold text-gradient mb-2 sm:mb-3">
                 {s.step}
               </div>
-              <h3 className="text-base font-semibold text-white mb-2">
+              <h3 className="text-base font-semibold text-white mb-1.5 sm:mb-2">
                 {s.title}
               </h3>
-              <p className="text-sm text-slate-400 leading-relaxed">
+              <p className="text-sm text-surface-200 leading-relaxed">
                 {s.description}
               </p>
             </div>
@@ -75,11 +75,11 @@ export default function ResumeBuilderPage() {
       </section>
 
       {/* Template preview area */}
-      <section className="w-full max-w-4xl mx-auto px-4 sm:px-6 pb-24" id="templates">
-        <h2 className="text-xl font-bold text-white mb-6 text-center animate-fade-in opacity-0 animate-delay-300">
+      <section className="w-full max-w-4xl mx-auto px-4 sm:px-6 pb-16 sm:pb-24" id="templates">
+        <h2 className="text-lg sm:text-xl font-bold text-white mb-4 sm:mb-6 text-center animate-fade-in opacity-0 animate-delay-300">
           Choose Your Template
         </h2>
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
           {templates.map((t, i) => (
             <button
               key={t.name}
@@ -88,36 +88,36 @@ export default function ResumeBuilderPage() {
               id={`template-${t.name.toLowerCase()}`}
             >
               {/* Fake resume preview */}
-              <div className="aspect-[3/4] p-4 flex flex-col gap-2 relative">
+              <div className="aspect-[3/4] p-3 sm:p-4 flex flex-col gap-1.5 sm:gap-2 relative">
                 {/* Accent stripe */}
-                <div className={`absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r ${t.accent}`} />
+                <div className={`absolute top-0 left-0 w-full h-1 sm:h-1.5 bg-gradient-to-r ${t.accent}`} />
 
                 {/* Avatar placeholder */}
-                <div className="w-8 h-8 rounded-full bg-white/10 mt-2" />
+                <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-white/10 mt-1.5 sm:mt-2" />
 
                 {/* Name lines */}
-                <div className="h-2 w-3/4 rounded-full bg-white/10 mt-1" />
-                <div className="h-1.5 w-1/2 rounded-full bg-white/[0.06]" />
+                <div className="h-1.5 sm:h-2 w-3/4 rounded-full bg-white/10 mt-0.5 sm:mt-1" />
+                <div className="h-1 sm:h-1.5 w-1/2 rounded-full bg-white/[0.06]" />
 
                 {/* Divider */}
-                <div className="h-px w-full bg-white/[0.06] my-1" />
+                <div className="h-px w-full bg-white/[0.06] my-0.5 sm:my-1" />
 
                 {/* Content lines */}
-                <div className="h-1.5 w-full rounded-full bg-white/[0.06]" />
-                <div className="h-1.5 w-5/6 rounded-full bg-white/[0.06]" />
-                <div className="h-1.5 w-4/6 rounded-full bg-white/[0.06]" />
-                <div className="h-px w-full bg-white/[0.06] my-1" />
-                <div className="h-1.5 w-full rounded-full bg-white/[0.06]" />
-                <div className="h-1.5 w-3/4 rounded-full bg-white/[0.06]" />
-                <div className="h-1.5 w-5/6 rounded-full bg-white/[0.06]" />
+                <div className="h-1 sm:h-1.5 w-full rounded-full bg-white/[0.06]" />
+                <div className="h-1 sm:h-1.5 w-5/6 rounded-full bg-white/[0.06]" />
+                <div className="h-1 sm:h-1.5 w-4/6 rounded-full bg-white/[0.06]" />
+                <div className="h-px w-full bg-white/[0.06] my-0.5 sm:my-1" />
+                <div className="h-1 sm:h-1.5 w-full rounded-full bg-white/[0.06]" />
+                <div className="h-1 sm:h-1.5 w-3/4 rounded-full bg-white/[0.06]" />
+                <div className="h-1 sm:h-1.5 w-5/6 rounded-full bg-white/[0.06]" />
               </div>
 
               {/* Label */}
-              <div className="px-4 py-3 border-t border-white/[0.06]">
-                <span className="text-sm font-medium text-slate-300 group-hover:text-white transition-colors">
+              <div className="px-3 sm:px-4 py-2.5 sm:py-3 border-t border-white/[0.06]">
+                <span className="text-xs sm:text-sm font-medium text-surface-200 group-hover:text-white transition-colors">
                   {t.name}
                 </span>
-                <span className="block text-xs text-slate-500 mt-0.5 group-hover:text-brand-400 transition-colors">
+                <span className="block text-[10px] sm:text-xs text-surface-200/50 mt-0.5 group-hover:text-brand-400 transition-colors">
                   Coming soon
                 </span>
               </div>

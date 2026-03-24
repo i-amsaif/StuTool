@@ -49,11 +49,11 @@ function SortablePdfItem({ item, onRemove }: { item: PdfFile; onRemove: () => vo
     <div
       ref={setNodeRef}
       style={style}
-      className="flex items-center justify-between p-3 mb-2 rounded-xl bg-slate-800/50 border border-white/[0.06] hover:border-brand-500/30 transition-colors group"
+      className="flex items-center justify-between p-3 mb-2 rounded-xl bg-surface-900/50 border border-white/[0.06] hover:border-brand-500/30 transition-colors group"
     >
       <div className="flex items-center gap-3 overflow-hidden">
         {/* Drag Handle */}
-        <div {...attributes} {...listeners} className="cursor-grab text-slate-500 hover:text-white shrink-0 p-1">
+        <div {...attributes} {...listeners} className="cursor-grab text-surface-200 hover:text-white shrink-0 p-1">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <line x1="8" y1="6" x2="21" y2="6" />
             <line x1="8" y1="12" x2="21" y2="12" />
@@ -75,12 +75,12 @@ function SortablePdfItem({ item, onRemove }: { item: PdfFile; onRemove: () => vo
         </div>
         <div className="truncate pr-4">
           <p className="text-sm font-medium text-white truncate">{item.file.name}</p>
-          <p className="text-xs text-slate-400">{(item.file.size / 1024 / 1024).toFixed(2)} MB</p>
+          <p className="text-xs text-surface-200">{(item.file.size / 1024 / 1024).toFixed(2)} MB</p>
         </div>
       </div>
       <button
         onClick={onRemove}
-        className="p-2 text-slate-500 hover:text-rose-400 transition-colors rounded-lg hover:bg-rose-500/10 shrink-0"
+        className="p-2 text-surface-200 hover:text-red-400 transition-colors rounded-lg hover:bg-red-500/10 shrink-0"
         aria-label="Remove file"
       >
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -208,10 +208,10 @@ export default function FileUploader({
         onClick={() => !isUploadDisabled && fileInputRef.current?.click()}
         className={`border-2 border-dashed rounded-2xl p-10 sm:p-12 text-center transition-all duration-300 flex flex-col items-center justify-center group ${
           isUploadDisabled 
-            ? "border-slate-800 opacity-50 cursor-not-allowed bg-slate-900/50" 
+            ? "border-surface-800 opacity-50 cursor-not-allowed bg-surface-900/50" 
             : isDragging 
               ? "border-brand-400 bg-brand-500/10 scale-[1.02]" 
-              : "border-slate-600 hover:border-brand-400 cursor-pointer bg-slate-900/50"
+              : "border-surface-700 hover:border-brand-400 cursor-pointer bg-surface-900/50"
         }`}
       >
         <input
@@ -223,27 +223,27 @@ export default function FileUploader({
           className="hidden"
           disabled={isUploadDisabled}
         />
-        <div className={`h-16 w-16 rounded-full bg-slate-800 flex items-center justify-center mb-4 transition-all duration-300 ${isUploadDisabled ? "" : "group-hover:scale-110 " + iconColor}`}>
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={`text-slate-400 transition-colors ${isUploadDisabled ? "" : iconColor.split(' ')[0]}`}>
+        <div className={`h-16 w-16 rounded-full bg-surface-800 flex items-center justify-center mb-4 transition-all duration-300 ${isUploadDisabled ? "" : "group-hover:scale-110 " + iconColor}`}>
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={`text-surface-200 transition-colors ${isUploadDisabled ? "" : iconColor.split(' ')[0]}`}>
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
             <polyline points="17 8 12 3 7 8" />
             <line x1="12" y1="3" x2="12" y2="15" />
           </svg>
         </div>
-        <h3 className={`text-lg font-semibold mb-2 transition-colors ${isUploadDisabled ? "text-slate-500" : "text-white " + iconColor.split(' ')[0]}`}>
+        <h3 className={`text-lg font-semibold mb-2 transition-colors ${isUploadDisabled ? "text-surface-200" : "text-white " + iconColor.split(' ')[0]}`}>
           {isUploadDisabled ? `Maximum of ${maxFiles} files reached` : title}
         </h3>
-        <p className="text-sm text-slate-400">{description}</p>
+        <p className="text-sm text-surface-200">{description}</p>
       </div>
 
       {/* File List */}
       {files.length > 0 && (
-        <div className="bg-slate-900/30 rounded-2xl p-4 border border-white/[0.05]">
+        <div className="bg-surface-900/30 rounded-2xl p-4 border border-white/[0.05]">
           <div className="flex justify-between items-center mb-4 px-2">
-            <h4 className="text-sm font-semibold text-slate-300">
+            <h4 className="text-sm font-semibold text-surface-200">
               Files uploaded ({files.length}{maxFiles ? ` / ${maxFiles}` : ""})
             </h4>
-            <span className="text-xs text-slate-500">Drag to reorder</span>
+            <span className="text-xs text-surface-200/60">Drag to reorder</span>
           </div>
           
           <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>

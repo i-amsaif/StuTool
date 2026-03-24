@@ -49,7 +49,7 @@ export default function MergePdfTool() {
         multiple={true}
         title="Select or drop PDFs here"
         description="Add two or more files to merge them."
-        iconColor="group-hover:text-rose-400 group-hover:bg-rose-500/10"
+        iconColor="group-hover:text-brand-400 group-hover:bg-brand-500/10"
       />
 
       {/* Action Buttons */}
@@ -73,8 +73,8 @@ export default function MergePdfTool() {
             disabled={files.length < 2 || isProcessing}
             className={`inline-flex items-center justify-center px-6 py-3 rounded-xl font-medium text-white transition-all duration-300 ${
               files.length < 2 || isProcessing
-                ? "bg-slate-700 cursor-not-allowed text-slate-400"
-                : "bg-gradient-to-r from-rose-500 to-pink-500 hover:-translate-y-0.5 shadow-[0_4px_15px_rgba(244,63,94,0.3)] hover:shadow-[0_6px_25px_rgba(244,63,94,0.45)]"
+                ? "bg-surface-700 cursor-not-allowed text-surface-200"
+                : "bg-gradient-to-r from-brand-500 to-red-700 hover:-translate-y-0.5 shadow-[0_4px_15px_rgba(233,3,2,0.3)] hover:shadow-[0_6px_25px_rgba(233,3,2,0.45)]"
             }`}
           >
             {isProcessing ? (
