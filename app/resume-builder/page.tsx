@@ -7,7 +7,7 @@ import { initialResumeData, ResumeData } from "@/lib/resumeSchema";
 import { fresherResume, experiencedResume } from "@/lib/sampleData";
 import ResumeForm from "@/components/resume/ResumeForm";
 import ResumePreview from "@/components/resume/ResumePreview";
-import { Download, FileJson, Share2, Upload, FileSignature, Edit3, Eye, LayoutTemplate } from "lucide-react";
+import { Download, FileJson, Share2, Upload, FileSignature, Edit3, Eye, LayoutTemplate, ZoomIn, ZoomOut } from "lucide-react";
 
 export default function ResumeBuilderPage() {
   const [resumeData, setResumeData] = useState<ResumeData>(initialResumeData);
@@ -16,10 +16,16 @@ export default function ResumeBuilderPage() {
   const [saveStatus, setSaveStatus] = useState<"Saved" | "Saving..." | "">("");
   
   // Mobile Tab State
-  const [activeTab, setActiveTab] = useState<"edit" | "preview">("edit");
-  const [showMobileTemplates, setShowMobileTemplates] = useState(false);
+  const [activeTab, setActiveTab] = useState<"edit" | "preview" | "layout">("edit");
+
+  // Zoom and Scaling State
+  const [baseScale, setBaseScale] = useState(1);
+  const [userZoom, setUserZoom] = useState(1);
+  const [previewHeight, setPreviewHeight] = useState(1122); // A4 roughly
 
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const previewContainerRef = useRef<HTMLDivElement>(null);
+  const printRef = useRef<HTMLDivElement>(null);
 
   const [visibleSections, setVisibleSections] = useState({
     experience: true,
@@ -27,9 +33,8 @@ export default function ResumeBuilderPage() {
     projects: true,
     skills: true
   });
-
-  const printRef = useRef<HTMLDivElement>(null);
   
+  // @ts-ignore
   const handlePrint = useReactToPrint({
     contentRef: printRef,
     documentTitle: resumeData.personal.name ? `${resumeData.personal.name} - Resume` : "Resume",
@@ -81,6 +86,39 @@ export default function ResumeBuilderPage() {
     return () => clearTimeout(handler);
   }, [resumeData, isMounted]);
 
+  // Scale calculations for Full-Width Mobile preview
+  useEffect(() => {
+    if (!isMounted) return;
+    const updateScale = () => {
+      if (previewContainerRef.current) {
+         const containerW = previewContainerRef.current.clientWidth;
+         // Minimal horizontal padding for edge-to-edge feel (16px total)
+         const availableW = Math.max(containerW - 16, 200);
+         // Standard A4 width at 96dpi is 794px
+         const calculatedScale = availableW / 794;
+         // Default zoom is perfectly fitted to screen (scale respects the screen width entirely)
+         setBaseScale(calculatedScale > 1 ? 1 : calculatedScale); 
+      }
+    };
+    updateScale();
+    window.addEventListener("resize", updateScale);
+    return () => window.removeEventListener("resize", updateScale);
+  }, [isMounted, activeTab]); 
+
+  // Track the actual dynamic height of the A4 page layout
+  useEffect(() => {
+    if (!isMounted || !printRef.current) return;
+    const resizeObserver = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        // Guarantee at least standard A4 height
+        setPreviewHeight(Math.max(entry.target.clientHeight, 1122));
+      }
+    });
+
+    resizeObserver.observe(printRef.current);
+    return () => resizeObserver.disconnect();
+  }, [isMounted, resumeData, selectedTemplate, activeTab]);
+
   const handleReset = () => {
     if (confirm("Are you sure you want to reset your resume? This action cannot be undone.")) {
       setResumeData(initialResumeData);
@@ -100,7 +138,7 @@ export default function ResumeBuilderPage() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `resume-data.json`;
+    a.download = `resume-${resumeData.personal.name ? resumeData.personal.name.replace(/\s+/g, '-').toLowerCase() : 'export'}.json`;
     a.click();
     URL.revokeObjectURL(url);
   };
@@ -194,6 +232,8 @@ export default function ResumeBuilderPage() {
 
   if (!isMounted) return null;
 
+  const finalScale = baseScale * userZoom;
+
   return (
     <div className="flex flex-col min-h-[100dvh] bg-surface-950 text-white font-sans overflow-hidden">
       
@@ -233,9 +273,9 @@ export default function ResumeBuilderPage() {
         </div>
       </header>
 
-      {/* --- MOBILE COMPACT HEADER --- */}
-      <header className="md:hidden sticky top-0 z-50 bg-surface-900/95 backdrop-blur-md border-b border-surface-800 px-4 py-3 flex justify-between items-center shadow-sm">
-        <h1 className="text-lg font-bold bg-gradient-to-r from-brand-400 to-brand-600 bg-clip-text text-transparent">Resume Builder</h1>
+      {/* --- MOBILE COMPACT HEADER (Cleaned up, removing excessive margins) --- */}
+      <header className="md:hidden sticky top-0 z-30 w-full bg-surface-900/95 backdrop-blur-md border-b border-surface-800 px-4 py-2 flex justify-between items-center shadow-sm">
+        <h1 className="text-base font-bold bg-gradient-to-r from-brand-400 to-brand-600 bg-clip-text text-transparent">Resume Builder</h1>
         <div className="flex items-center gap-3">
           {saveStatus && <div className="text-[10px] font-bold uppercase tracking-widest text-brand-400 bg-brand-500/10 px-2 py-0.5 rounded-full">{saveStatus}</div>}
           <button onClick={handleReset} className="text-xs font-medium text-red-400">Reset</button>
@@ -243,9 +283,9 @@ export default function ResumeBuilderPage() {
       </header>
 
       {/* --- MAIN CONTENT AREA --- */}
-      <div className="flex flex-col md:flex-row h-[calc(100dvh-53px)] md:h-[calc(100vh-61px)] pb-[64px] md:pb-0 relative">
+      <div className="flex flex-col md:flex-row h-[calc(100dvh-44px)] md:h-[calc(100vh-61px)] pb-[64px] md:pb-0 relative">
         
-        {/* LEFT: FORM */}
+        {/* LEFT/MOBILE 1: FORM */}
         <div className={`w-full md:w-[45%] lg:w-[40%] bg-surface-900 border-b md:border-b-0 md:border-r border-surface-800 h-full overflow-y-auto custom-scrollbar ${activeTab === 'edit' ? 'block' : 'hidden md:block'}`}>
           <ResumeForm
             data={resumeData}
@@ -260,49 +300,116 @@ export default function ResumeBuilderPage() {
           />
         </div>
 
-        {/* RIGHT: PREVIEW */}
-        <div className={`w-full md:w-[55%] lg:w-[60%] h-full overflow-y-auto bg-surface-950 p-0 sm:p-4 md:p-8 flex-col items-center custom-scrollbar ${activeTab === 'preview' ? 'flex' : 'hidden md:flex'}`}>
-          <div className="w-full h-full flex justify-center py-4 overflow-visible transform scale-[0.4] sm:scale-[0.55] md:scale-[0.7] lg:scale-[0.9] xl:scale-100 origin-top transition-transform duration-300">
-            <ResumePreview ref={printRef} data={displayData} template={selectedTemplate} />
+        {/* MOBILE 2: LAYOUT TAB (Hidden on Desktop) */}
+        <div className={`w-full h-full bg-surface-900 overflow-y-auto p-5 md:hidden custom-scrollbar ${activeTab === 'layout' ? 'block' : 'hidden'}`}>
+           <h2 className="text-xl font-bold mb-6 text-white flex items-center gap-2 mt-2">
+             <span className="w-8 h-8 rounded-lg bg-brand-500/10 text-brand-400 flex items-center justify-center"><LayoutTemplate size={18}/></span> 
+             Choose Theme
+           </h2>
+           <div className="flex flex-col gap-4">
+              {['minimal', 'modern', 'classic'].map(t => (
+                 <div 
+                   key={t}
+                   onClick={() => setSelectedTemplate(t)}
+                   className={`p-5 rounded-2xl border-2 cursor-pointer transition-all relative overflow-hidden ${selectedTemplate === t ? 'border-brand-500 bg-brand-500/5 shadow-[0_0_20px_rgba(var(--brand-500),0.1)]' : 'border-surface-700 bg-surface-800 hover:border-surface-600'}`}
+                 >
+                   {selectedTemplate === t && <div className="absolute top-0 right-0 w-16 h-16 bg-brand-500/10 rounded-bl-full"></div>}
+                   <div className="flex justify-between items-center mb-2">
+                     <h3 className="text-lg font-bold capitalize text-white">{t}</h3>
+                     {selectedTemplate === t && <div className="w-3.5 h-3.5 rounded-full bg-brand-500 flex items-center justify-center shadow-[0_0_10px_rgba(var(--brand-500),0.5)]"><div className="w-1.5 h-1.5 rounded-full bg-white"></div></div>}
+                     {selectedTemplate !== t && <div className="w-3.5 h-3.5 rounded-full border-2 border-surface-600 outline-none"></div>}
+                   </div>
+                   <p className="text-sm text-surface-400 leading-relaxed max-w-[90%]">
+                     {t === 'minimal' ? "Clean, simple, and traditional. Perfect for passing strict ATS systems." :
+                      t === 'modern' ? "Two-column vibrant layout with a splash of color. Great for creatives." :
+                      "Professional serif typography designed exclusively for formal and executive roles."}
+                   </p>
+                 </div>
+              ))}
+           </div>
+        </div>
+
+        {/* RIGHT/MOBILE 3: PREVIEW */}
+        <div 
+          ref={previewContainerRef} 
+          className={`w-full md:w-[55%] lg:w-[60%] h-full overflow-y-auto overflow-x-hidden bg-surface-950 px-0 md:px-8 py-2 md:py-8 flex-col custom-scrollbar ${activeTab === 'preview' ? 'flex' : 'hidden md:flex'}`}
+        >
+          
+          {/* Mobile Preview Top Actions (Sticky Zoom Bar, absolutely no overlap) */}
+          {activeTab === 'preview' && (
+            <div className="md:hidden sticky top-0 z-20 w-full bg-surface-800/90 backdrop-blur-md border-b border-surface-700/80 px-4 py-2 shadow-lg flex items-center justify-between mb-2 flex-shrink-0">
+               <span className="text-[11px] font-bold text-surface-200 uppercase tracking-widest flex items-center gap-1.5 border-l-2 border-brand-500 pl-2">
+                 <Eye size={14} className="text-brand-400"/> Preview
+               </span>
+               <div className="flex items-center gap-1 bg-surface-900 rounded-lg p-0.5 border border-surface-700">
+                  <button onClick={() => setUserZoom(z => Math.max(0.5, z - 0.2))} className="p-1.5 hover:bg-surface-800 rounded text-surface-300 transition-colors"><ZoomOut size={14}/></button>
+                  <button onClick={() => setUserZoom(1)} className="px-1 text-[11px] font-bold text-brand-400 min-w-[5ch] flex justify-center hover:bg-surface-800 rounded py-1 transition-colors">{(userZoom * 100).toFixed(0)}%</button>
+                  <button onClick={() => setUserZoom(z => Math.min(2.5, z + 0.2))} className="p-1.5 hover:bg-surface-800 rounded text-surface-300 transition-colors"><ZoomIn size={14}/></button>
+               </div>
+            </div>
+          )}
+
+          {/* Desktop Zoom Actions */}
+          <div className="hidden md:flex items-center justify-end w-full max-w-[794px] mx-auto mb-4 flex-shrink-0">
+             <div className="flex items-center gap-1 bg-surface-900 rounded-lg p-1 border border-surface-800 shadow-sm">
+                <button onClick={() => setUserZoom(z => Math.max(0.5, z - 0.2))} className="p-1.5 hover:bg-surface-800 rounded text-surface-400 hover:text-white transition-colors"><ZoomOut size={16}/></button>
+                <button onClick={() => setUserZoom(1)} className="px-3 text-xs font-bold text-brand-400 min-w-[5ch] flex justify-center hover:bg-surface-800 rounded py-1.5 transition-colors">{(userZoom * 100).toFixed(0)}%</button>
+                <button onClick={() => setUserZoom(z => Math.min(2.5, z + 0.2))} className="p-1.5 hover:bg-surface-800 rounded text-surface-400 hover:text-white transition-colors"><ZoomIn size={16}/></button>
+             </div>
           </div>
+
+          {/* Outer Centering Flex Container */}
+          <div className="flex justify-center w-full border border-dashed border-red-500/50 flex-shrink-0" /* Debug border around container */>
+             
+             {/* The Proxy Bounding Box - It exactly matches the scaled physical dimensions */}
+             <div 
+               className="relative"
+               style={{ 
+                 width: `${794 * finalScale}px`,
+                 height: `${previewHeight * finalScale}px`,
+               }}
+             >
+                {/* The Actual Scaled Document (Isolated rendering) */}
+                <div 
+                   className="absolute top-0 left-0 bg-white text-black shadow-[0_0_50px_rgba(0,0,0,0.5)] rounded-sm print:shadow-none print:border-none print:rounded-none print:bg-transparent overflow-hidden"
+                   style={{ 
+                     transform: `scale(${finalScale})`, 
+                     transformOrigin: 'top left',
+                     width: '794px',
+                     minHeight: '1122px', // Minimum standard A4 height
+                   }}
+                >
+                    <div ref={printRef} className="w-full h-full">
+                       <ResumePreview data={displayData} template={selectedTemplate} />
+                    </div>
+                </div>
+             </div>
+
+          </div>
+
+          <div className="h-[40px] w-full shrink-0"></div> {/* Bottom scroll breathing room */}
         </div>
 
       </div>
 
       {/* --- MOBILE BOTTOM NAVIGATION DOCK --- */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 h-[64px] bg-surface-900/95 backdrop-blur-md border-t border-surface-800 flex justify-around items-center z-50 pb-safe">
+      <div className="md:hidden fixed bottom-0 left-0 right-0 h-[64px] bg-surface-900/95 backdrop-blur-md border-t border-surface-800 flex justify-around items-center z-50 pb-safe shadow-[0_-10px_30px_-10px_rgba(0,0,0,0.6)]">
         
         <button onClick={() => setActiveTab('edit')} className={`flex flex-col items-center justify-center w-full h-full gap-1 transition-colors ${activeTab === 'edit' ? 'text-brand-400 bg-surface-800/50' : 'text-surface-400 hover:text-surface-200'}`}>
           <Edit3 size={20} strokeWidth={activeTab === 'edit' ? 2.5 : 2} />
           <span className="text-[10px] font-semibold">Form</span>
         </button>
 
-        <button onClick={() => setActiveTab('preview')} className={`flex flex-col items-center justify-center w-full h-full gap-1 transition-colors ${activeTab === 'preview' ? 'text-brand-400 bg-surface-800/50' : 'text-surface-400 hover:text-surface-200'}`}>
+        <button onClick={() => setActiveTab('layout')} className={`flex flex-col items-center justify-center w-full h-full gap-1 transition-colors ${activeTab === 'layout' ? 'text-brand-400 bg-surface-800/50' : 'text-surface-400 hover:text-surface-200'}`}>
+          <LayoutTemplate size={20} strokeWidth={activeTab === 'layout' ? 2.5 : 2} />
+          <span className="text-[10px] font-semibold">Layout</span>
+        </button>
+
+        <button onClick={() => { setActiveTab('preview'); setUserZoom(1); }} className={`flex flex-col items-center justify-center w-full h-full gap-1 transition-colors ${activeTab === 'preview' ? 'text-brand-400 bg-surface-800/50' : 'text-surface-400 hover:text-surface-200'}`}>
           <Eye size={20} strokeWidth={activeTab === 'preview' ? 2.5 : 2} />
           <span className="text-[10px] font-semibold">Preview</span>
         </button>
         
-        <div className="relative flex flex-col items-center justify-center w-full h-full">
-          <button onClick={() => setShowMobileTemplates(!showMobileTemplates)} className={`flex flex-col items-center justify-center w-full h-full gap-1 transition-colors ${showMobileTemplates ? 'text-brand-400 bg-surface-800/50' : 'text-surface-400'}`}>
-            <LayoutTemplate size={20} />
-            <span className="text-[10px] font-semibold">Layout</span>
-          </button>
-          
-          {showMobileTemplates && (
-            <>
-              <div className="fixed inset-0 z-40 bg-black/40" onClick={() => setShowMobileTemplates(false)}></div>
-              <div className="absolute bottom-[72px] left-1/2 -translate-x-1/2 mb-2 bg-surface-800 border border-surface-700/80 rounded-xl shadow-2xl p-2 flex flex-col gap-1.5 w-[160px] z-50 animate-in fade-in slide-in-from-bottom-4 duration-200">
-                <div className="text-[10px] font-bold text-surface-400 px-2 py-1 uppercase tracking-wider">Choose Theme</div>
-                {['minimal', 'modern', 'classic'].map(t => (
-                  <button key={t} onClick={() => { setSelectedTemplate(t); setShowMobileTemplates(false); }} className={`px-4 py-2.5 text-left text-sm rounded-lg capitalize font-medium transition-colors ${selectedTemplate === t ? 'bg-brand-500 text-white' : 'hover:bg-surface-700 text-surface-200'}`}>
-                    {t}
-                  </button>
-                ))}
-              </div>
-            </>
-          )}
-        </div>
-
         <button onClick={() => handlePrint()} className="flex flex-col items-center justify-center w-full h-full gap-1 text-surface-400 hover:text-brand-400 transition-colors">
           <Download size={20} />
           <span className="text-[10px] font-semibold">PDF</span>
