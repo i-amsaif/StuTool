@@ -12,11 +12,14 @@
     "@dnd-kit/core": "^6.3.1",
     "@dnd-kit/sortable": "^10.0.0",
     "@dnd-kit/utilities": "^3.2.2",
+    "lucide-react": "^1.0.1",
+    "lz-string": "^1.5.0",
     "next": "14.2.29",
     "pdf-lib": "^1.17.1",
     "pdfjs-dist": "^3.11.174",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "react-to-print": "^3.3.0"
   },
   "devDependencies": {
     "@types/node": "^20",
