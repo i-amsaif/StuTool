@@ -57,7 +57,7 @@ export default function ResumeForm({
   const toggleSection = (sec: string) => setExpanded(p => {
     // Accordion Logic: expand only 1 section, tracking visual scrolling down
     const isCurrentlyOpen = p[sec];
-    const newState = { personal: false, experience: false, education: false, projects: false, skills: false };
+    const newState: Record<string, boolean> = { personal: false, experience: false, education: false, projects: false, skills: false };
     newState[sec] = !isCurrentlyOpen;
     return newState;
   });

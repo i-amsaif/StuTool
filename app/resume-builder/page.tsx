@@ -30,10 +30,8 @@ export default function ResumeBuilderPage() {
 
   const printRef = useRef<HTMLDivElement>(null);
   
-  // @ts-ignore
   const handlePrint = useReactToPrint({
     contentRef: printRef,
-    content: () => printRef.current,
     documentTitle: resumeData.personal.name ? `${resumeData.personal.name} - Resume` : "Resume",
   });
 
