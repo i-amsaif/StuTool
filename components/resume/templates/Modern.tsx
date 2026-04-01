@@ -159,27 +159,23 @@ export default function ModernTemplate({ data }: { data: ResumeData }) {
         )}
 
         {/* Skills */}
-        <div className="flex flex-col gap-3 text-sm mt-2">
-          <h2 className="text-base font-bold uppercase tracking-widest text-slate-800 mb-1">
-            Skills
-          </h2>
-          {skills && skills.length > 0 ? (
+        {skills && skills.length > 0 && (
+          <div className="flex flex-col gap-3 text-sm mt-2">
+            <h2 className="text-base font-bold uppercase tracking-widest text-slate-800 mb-1">
+              Skills
+            </h2>
             <div className="flex flex-wrap gap-1.5">
               {skills.map((skill, i) => (
                 <span
                   key={i}
-                  className="bg-slate-200 text-slate-800 px-2 py-1 rounded text-xs font-semibold print:bg-slate-200"
+                  className="bg-slate-200 text-slate-800 px-2 py-1 rounded text-xs font-semibold print:bg-slate-200 break-all"
                 >
                   {skill}
                 </span>
               ))}
             </div>
-          ) : (
-            <p className="text-xs text-brand-500 italic font-medium">
-              Add technical skills to populate this area
-            </p>
-          )}
-        </div>
+          </div>
+        )}
       </div>
 
       {/* Right Column */}
@@ -202,6 +198,7 @@ export default function ModernTemplate({ data }: { data: ResumeData }) {
               ) : null;
 
             case "education":
+              if (!education || education.length === 0) return null;
               return (
                 <section key="education">
                   <h2 className="text-lg font-bold uppercase tracking-widest text-slate-900 border-b-2 border-slate-100 pb-2 mb-4 flex items-center gap-2">
@@ -210,81 +207,73 @@ export default function ModernTemplate({ data }: { data: ResumeData }) {
                     </span>{" "}
                     Education
                   </h2>
-                  {!education || education.length === 0 ? (
-                    <p className="text-sm text-slate-400 italic">
-                      No education history.{" "}
-                      <span className="text-brand-500 font-medium">
-                        Click to add degrees.
-                      </span>
-                    </p>
-                  ) : (
-                    <div className="flex flex-col gap-5">
-                      {education.map((edu) => (
-                        <div
-                          key={edu.id}
-                          className="break-inside-avoid cursor-pointer hover:bg-slate-50 p-2 -mx-2 rounded transition-colors"
-                          onClick={() =>
-                            document
-                              .getElementById(
-                                `input-edu-institution-${edu.id}`
-                              )
-                              ?.focus()
-                          }
-                        >
-                          <div className="flex justify-between items-baseline mb-0.5">
-                            <h3 className="text-base font-bold text-slate-800">
-                              {edu.institution || "Institution"}
-                            </h3>
-                            <span className="text-[11px] font-semibold text-blue-700 bg-blue-50 px-2 py-0.5 rounded print:text-blue-700 print:bg-blue-50 print:color-adjust-exact whitespace-nowrap ml-2">
-                              {edu.year || "Year"}
-                            </span>
-                          </div>
-                          <div className="flex items-baseline gap-2 mb-1">
-                            {DEGREE_VISIBLE_LEVELS.includes(edu.level) &&
-                              edu.degree && (
-                                <span className="text-sm font-medium text-blue-700">
-                                  {edu.degree}
-                                </span>
-                              )}
-                            {!(DEGREE_VISIBLE_LEVELS.includes(edu.level) && edu.degree) && edu.level && (
+                  <div className="flex flex-col gap-5">
+                    {education.map((edu) => (
+                      <div
+                        key={edu.id}
+                        className="break-inside-avoid cursor-pointer hover:bg-slate-50 p-2 -mx-2 rounded transition-colors"
+                        onClick={() =>
+                          document
+                            .getElementById(
+                              `input-edu-institution-${edu.id}`
+                            )
+                            ?.focus()
+                        }
+                      >
+                        <div className="flex justify-between items-baseline mb-0.5">
+                          <h3 className="text-base font-bold text-slate-800">
+                            {edu.institution || "Institution"}
+                          </h3>
+                          <span className="text-[11px] font-semibold text-blue-700 bg-blue-50 px-2 py-0.5 rounded print:text-blue-700 print:bg-blue-50 print:color-adjust-exact whitespace-nowrap ml-2">
+                            {edu.year || "Year"}
+                          </span>
+                        </div>
+                        <div className="flex items-baseline gap-2 mb-1">
+                          {DEGREE_VISIBLE_LEVELS.includes(edu.level) &&
+                            edu.degree && (
                               <span className="text-sm font-medium text-blue-700">
-                                {edu.level}
+                                {edu.degree}
                               </span>
                             )}
-                            {edu.board && (
-                              <>
-                                <span className="text-slate-400 text-xs">
-                                  |
-                                </span>
-                                <span className="text-sm text-slate-600">
-                                  {edu.board}
-                                </span>
-                              </>
-                            )}
-                            {edu.marks && (
-                              <>
-                                <span className="text-slate-400 text-xs">
-                                  |
-                                </span>
-                                <span className="text-sm text-slate-700 font-semibold">
-                                  {formatMarks(edu)}
-                                </span>
-                              </>
-                            )}
-                          </div>
-                          {edu.description && (
-                            <p className="text-sm text-slate-700 leading-relaxed whitespace-pre-wrap">
-                              {edu.description}
-                            </p>
+                          {!(DEGREE_VISIBLE_LEVELS.includes(edu.level) && edu.degree) && edu.level && (
+                            <span className="text-sm font-medium text-blue-700">
+                              {edu.level}
+                            </span>
+                          )}
+                          {edu.board && (
+                            <>
+                              <span className="text-slate-400 text-xs">
+                                |
+                              </span>
+                              <span className="text-sm text-slate-600">
+                                {edu.board}
+                              </span>
+                            </>
+                          )}
+                          {edu.marks && (
+                            <>
+                              <span className="text-slate-400 text-xs">
+                                |
+                              </span>
+                              <span className="text-sm text-slate-700 font-semibold">
+                                {formatMarks(edu)}
+                              </span>
+                            </>
                           )}
                         </div>
-                      ))}
-                    </div>
-                  )}
+                        {edu.description && (
+                          <p className="text-sm text-slate-700 leading-relaxed whitespace-pre-wrap">
+                            {edu.description}
+                          </p>
+                        )}
+                      </div>
+                    ))}
+                  </div>
                 </section>
               );
 
             case "experience":
+              if (!experience || experience.length === 0) return null;
               return (
                 <section key="experience">
                   <h2 className="text-lg font-bold uppercase tracking-widest text-slate-900 border-b-2 border-slate-100 pb-2 mb-4 flex items-center gap-2">
@@ -293,52 +282,43 @@ export default function ModernTemplate({ data }: { data: ResumeData }) {
                     </span>{" "}
                     Experience
                   </h2>
-                  {!experience || experience.length === 0 ? (
-                    <p className="text-sm text-slate-400 italic">
-                      No professional experience listed.{" "}
-                      <span className="text-brand-500 font-medium">
-                        Add roles here.
-                      </span>
-                    </p>
-                  ) : (
-                    <div className="flex flex-col gap-6">
-                      {experience.map((exp) => (
-                        <div
-                          key={exp.id}
-                          className="break-inside-avoid cursor-pointer hover:bg-slate-50 p-2 -mx-2 rounded transition-colors"
-                          onClick={() =>
-                            document
-                              .getElementById(
-                                `input-exp-company-${exp.id}`
-                              )
-                              ?.focus()
-                          }
-                        >
-                          <div className="flex justify-between items-baseline mb-0.5">
-                            <h3 className="text-base font-bold text-slate-800">
-                              {exp.position || "Position"}
-                            </h3>
-                            <span className="text-[11px] font-semibold text-blue-700 bg-blue-50 px-2 py-0.5 rounded print:text-blue-700 print:bg-blue-50 print:color-adjust-exact whitespace-nowrap ml-2">
-                              {exp.startDate || "Start"}{" "}
-                              {((exp.startDate && exp.endDate) ||
-                                (!exp.startDate && exp.endDate)) &&
-                                "-"}{" "}
-                              {exp.endDate ||
-                                (exp.startDate && "Present")}
-                            </span>
-                          </div>
-                          <div className="text-sm font-medium text-slate-600 mb-2">
-                            {exp.company || "Company"}
-                          </div>
-                          {exp.description && (
-                            <p className="text-sm text-slate-700 leading-relaxed whitespace-pre-wrap">
-                              {exp.description}
-                            </p>
-                          )}
+                  <div className="flex flex-col gap-6">
+                    {experience.map((exp) => (
+                      <div
+                        key={exp.id}
+                        className="break-inside-avoid cursor-pointer hover:bg-slate-50 p-2 -mx-2 rounded transition-colors"
+                        onClick={() =>
+                          document
+                            .getElementById(
+                              `input-exp-company-${exp.id}`
+                            )
+                            ?.focus()
+                        }
+                      >
+                        <div className="flex justify-between items-baseline mb-0.5">
+                          <h3 className="text-base font-bold text-slate-800">
+                            {exp.position || "Position"}
+                          </h3>
+                          <span className="text-[11px] font-semibold text-blue-700 bg-blue-50 px-2 py-0.5 rounded print:text-blue-700 print:bg-blue-50 print:color-adjust-exact whitespace-nowrap ml-2">
+                            {exp.startDate || "Start"}{" "}
+                            {((exp.startDate && exp.endDate) ||
+                              (!exp.startDate && exp.endDate)) &&
+                              "-"}{" "}
+                            {exp.endDate ||
+                              (exp.startDate && "Present")}
+                          </span>
                         </div>
-                      ))}
-                    </div>
-                  )}
+                        <div className="text-sm font-medium text-slate-600 mb-2">
+                          {exp.company || "Company"}
+                        </div>
+                        {exp.description && (
+                          <p className="text-sm text-slate-700 leading-relaxed whitespace-pre-wrap">
+                            {exp.description}
+                          </p>
+                        )}
+                      </div>
+                    ))}
+                  </div>
                 </section>
               );
 

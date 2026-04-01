@@ -57,150 +57,126 @@ export default function MinimalTemplate({ data }: MinimalTemplateProps) {
         ) : null;
 
       case "education":
+        if (!education || education.length === 0) return null;
         return (
           <section key="education" className="mb-7">
             <h2 className="text-[1.1rem] font-bold border-b border-gray-400 mb-4 pb-1 uppercase tracking-wider text-gray-800">
               Education
             </h2>
-            {!education || education.length === 0 ? (
-              <p className="text-sm text-gray-400 italic">
-                No education added.{" "}
-                <span className="text-brand-500 font-medium">
-                  Highlight your academic background.
-                </span>
-              </p>
-            ) : (
-              <div className="flex flex-col gap-4">
-                {education.map((edu) => (
-                  <div
-                    key={edu.id}
-                    className="cursor-pointer hover:bg-gray-50 transition-colors -mx-4 px-4 py-2 rounded-lg"
-                    onClick={() =>
-                      document
-                        .getElementById(`input-edu-institution-${edu.id}`)
-                        ?.focus()
-                    }
-                  >
-                    <div className="flex justify-between items-baseline mb-1">
-                      <h3 className="font-semibold text-gray-900">
-                        {edu.institution || "Institution Name"}
-                      </h3>
-                      <span className="text-sm text-gray-600 font-medium whitespace-nowrap ml-2">
-                        {edu.year || "Year"}
+            <div className="flex flex-col gap-4">
+              {education.map((edu) => (
+                <div
+                  key={edu.id}
+                  className="cursor-pointer hover:bg-gray-50 transition-colors -mx-4 px-4 py-2 rounded-lg"
+                  onClick={() =>
+                    document
+                      .getElementById(`input-edu-institution-${edu.id}`)
+                      ?.focus()
+                  }
+                >
+                  <div className="flex justify-between items-baseline mb-1">
+                    <h3 className="font-semibold text-gray-900">
+                      {edu.institution || "Institution Name"}
+                    </h3>
+                    <span className="text-sm text-gray-600 font-medium whitespace-nowrap ml-2">
+                      {edu.year || "Year"}
+                    </span>
+                  </div>
+                  <div className="flex items-baseline gap-2 mb-1">
+                    {DEGREE_VISIBLE_LEVELS.includes(edu.level) && edu.degree && (
+                      <span className="text-sm text-gray-700 italic">
+                        {edu.degree}
                       </span>
-                    </div>
-                    <div className="flex items-baseline gap-2 mb-1">
-                      {DEGREE_VISIBLE_LEVELS.includes(edu.level) && edu.degree && (
-                        <span className="text-sm text-gray-700 italic">
-                          {edu.degree}
+                    )}
+                    {!(DEGREE_VISIBLE_LEVELS.includes(edu.level) && edu.degree) && edu.level && (
+                      <span className="text-sm text-gray-700 italic">
+                        {edu.level}
+                      </span>
+                    )}
+                    {edu.board && (
+                      <>
+                        <span className="text-gray-400 text-xs">|</span>
+                        <span className="text-sm text-gray-600">
+                          {edu.board}
                         </span>
-                      )}
-                      {!(DEGREE_VISIBLE_LEVELS.includes(edu.level) && edu.degree) && edu.level && (
-                        <span className="text-sm text-gray-700 italic">
-                          {edu.level}
+                      </>
+                    )}
+                    {edu.marks && (
+                      <>
+                        <span className="text-gray-400 text-xs">|</span>
+                        <span className="text-sm text-gray-700 font-semibold">
+                          {formatMarks(edu)}
                         </span>
-                      )}
-                      {edu.board && (
-                        <>
-                          <span className="text-gray-400 text-xs">|</span>
-                          <span className="text-sm text-gray-600">
-                            {edu.board}
-                          </span>
-                        </>
-                      )}
-                      {edu.marks && (
-                        <>
-                          <span className="text-gray-400 text-xs">|</span>
-                          <span className="text-sm text-gray-700 font-semibold">
-                            {formatMarks(edu)}
-                          </span>
-                        </>
-                      )}
-                    </div>
-                    {edu.description && (
-                      <p className="text-sm text-gray-600 whitespace-pre-wrap leading-relaxed">
-                        {edu.description}
-                      </p>
+                      </>
                     )}
                   </div>
-                ))}
-              </div>
-            )}
+                  {edu.description && (
+                    <p className="text-sm text-gray-600 whitespace-pre-wrap leading-relaxed">
+                      {edu.description}
+                    </p>
+                  )}
+                </div>
+              ))}
+            </div>
           </section>
         );
 
       case "experience":
+        if (!experience || experience.length === 0) return null;
         return (
           <section key="experience" className="mb-7">
             <h2 className="text-[1.1rem] font-bold border-b border-gray-400 mb-4 pb-1 uppercase tracking-wider text-gray-800">
               Experience
             </h2>
-            {!experience || experience.length === 0 ? (
-              <p className="text-sm text-gray-400 italic">
-                No experience added yet.{" "}
-                <span className="text-brand-500 font-medium">
-                  Add roles to showcase your history.
-                </span>
-              </p>
-            ) : (
-              <div className="flex flex-col gap-5">
-                {experience.map((exp) => (
-                  <div
-                    key={exp.id}
-                    className="cursor-pointer hover:bg-gray-50 transition-colors -mx-4 px-4 py-2 fill-transparent rounded-lg"
-                    onClick={() =>
-                      document
-                        .getElementById(`input-exp-position-${exp.id}`)
-                        ?.focus()
-                    }
-                  >
-                    <div className="flex justify-between items-baseline mb-1">
-                      <h3 className="font-semibold text-gray-900">
-                        {exp.position || "Position / Title"}
-                      </h3>
-                      <span className="text-sm text-gray-600 font-medium">
-                        {exp.startDate || "Start"}{" "}
-                        {((exp.startDate && exp.endDate) ||
-                          (!exp.startDate && exp.endDate)) &&
-                          "-"}{" "}
-                        {exp.endDate ||
-                          (exp.startDate && "Present") ||
-                          "End"}
-                      </span>
-                    </div>
-                    <div className="text-sm text-gray-700 italic mb-2">
-                      {exp.company || "Company Name"}
-                    </div>
-                    {exp.description && (
-                      <p className="text-sm text-gray-700 whitespace-pre-wrap leading-relaxed">
-                        {exp.description}
-                      </p>
-                    )}
+            <div className="flex flex-col gap-5">
+              {experience.map((exp) => (
+                <div
+                  key={exp.id}
+                  className="cursor-pointer hover:bg-gray-50 transition-colors -mx-4 px-4 py-2 fill-transparent rounded-lg"
+                  onClick={() =>
+                    document
+                      .getElementById(`input-exp-position-${exp.id}`)
+                      ?.focus()
+                  }
+                >
+                  <div className="flex justify-between items-baseline mb-1">
+                    <h3 className="font-semibold text-gray-900">
+                      {exp.position || "Position / Title"}
+                    </h3>
+                    <span className="text-sm text-gray-600 font-medium">
+                      {exp.startDate || "Start"}{" "}
+                      {((exp.startDate && exp.endDate) ||
+                        (!exp.startDate && exp.endDate)) &&
+                        "-"}{" "}
+                      {exp.endDate ||
+                        (exp.startDate && "Present") ||
+                        "End"}
+                    </span>
                   </div>
-                ))}
-              </div>
-            )}
+                  <div className="text-sm text-gray-700 italic mb-2">
+                    {exp.company || "Company Name"}
+                  </div>
+                  {exp.description && (
+                    <p className="text-sm text-gray-700 whitespace-pre-wrap leading-relaxed">
+                      {exp.description}
+                    </p>
+                  )}
+                </div>
+              ))}
+            </div>
           </section>
         );
 
       case "skills":
+        if (!skills || skills.length === 0) return null;
         return (
           <section key="skills" className="mb-7">
             <h2 className="text-[1.1rem] font-bold border-b border-gray-400 mb-4 pb-1 uppercase tracking-wider text-gray-800">
               Skills
             </h2>
-            {!skills || skills.length === 0 ? (
-              <p className="text-sm text-gray-400 italic">
-                No skills added.{" "}
-                <span className="text-brand-500 font-medium">
-                  List keywords to beat ATS systems.
-                </span>
-              </p>
-            ) : (
-              <div className="text-sm text-gray-700 leading-relaxed font-medium">
-                {skills.join(" • ")}
-              </div>
-            )}
+            <div className="text-sm text-gray-700 leading-relaxed font-medium break-words">
+              {skills.join(" • ")}
+            </div>
           </section>
         );
 
@@ -291,7 +267,7 @@ export default function MinimalTemplate({ data }: MinimalTemplateProps) {
           document.getElementById("input-personal-name")?.focus()
         }
       >
-        <h1 className="text-3xl font-bold mb-2 group-hover:text-brand-600 transition-colors">
+        <h1 className="text-3xl font-bold mb-2 group-hover:text-brand-600 transition-colors break-words">
           {personal.name || "Your Name"}
         </h1>
         {hasContactInfo ? (

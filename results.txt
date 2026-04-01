@@ -1,0 +1,176 @@
+[
+  {
+    "file": "app\\resume-builder\\page.tsx",
+    "line": 33,
+    "query": ".edu",
+    "text": "if (migrated.education?.length > 0) {"
+  },
+  {
+    "file": "app\\resume-builder\\page.tsx",
+    "line": 34,
+    "query": ".edu",
+    "text": "migrated.education = migrated.education.map((edu: any) => {"
+  },
+  {
+    "file": "app\\resume-builder\\page.tsx",
+    "line": 133,
+    "query": "alex",
+    "text": "const manualExperienceToggle = useRef(false);"
+  },
+  {
+    "file": "app\\resume-builder\\page.tsx",
+    "line": 222,
+    "query": "alex",
+    "text": "if (manualExperienceToggle.current) return; // User has manually toggled, don't auto-control"
+  },
+  {
+    "file": "app\\resume-builder\\page.tsx",
+    "line": 285,
+    "query": "alex",
+    "text": "manualExperienceToggle.current = true;"
+  },
+  {
+    "file": "app\\resume-builder\\page.tsx",
+    "line": 307,
+    "query": "alex",
+    "text": "manualExperienceToggle.current = false;"
+  },
+  {
+    "file": "app\\resume-builder\\page.tsx",
+    "line": 491,
+    "query": "alex",
+    "text": "manualExperienceToggle.current = true;"
+  },
+  {
+    "file": "app\\resume-builder\\page.tsx",
+    "line": 505,
+    "query": ".edu",
+    "text": "const has10th = resumeData.education.some((e) => e.level === \"10th\");"
+  },
+  {
+    "file": "app\\resume-builder\\page.tsx",
+    "line": 506,
+    "query": ".edu",
+    "text": "const has12th = resumeData.education.some((e) => e.level === \"12th\");"
+  },
+  {
+    "file": "app\\resume-builder\\page.tsx",
+    "line": 540,
+    "query": ".edu",
+    "text": "education: [...prev.education, ...newEntries],"
+  },
+  {
+    "file": "app\\resume-builder\\page.tsx",
+    "line": 554,
+    "query": ".edu",
+    "text": "education: visibleSections.education ? resumeData.education : [],"
+  },
+  {
+    "file": "components\\resume\\ResumeForm.tsx",
+    "line": 164,
+    "query": "alex",
+    "text": "const [showPersonalExtras, setShowPersonalExtras] = useState(false);"
+  },
+  {
+    "file": "components\\resume\\ResumeForm.tsx",
+    "line": 190,
+    "query": ".edu",
+    "text": "educationCount: data.education.length,"
+  },
+  {
+    "file": "components\\resume\\ResumeForm.tsx",
+    "line": 532,
+    "query": "alex",
+    "text": "onClick={() => setShowPersonalExtras(!showPersonalExtras)}"
+  },
+  {
+    "file": "components\\resume\\ResumeForm.tsx",
+    "line": 538,
+    "query": "alex",
+    "text": "{showPersonalExtras ? \"Hide\" : \"Show\"} Additional Details"
+  },
+  {
+    "file": "components\\resume\\ResumeForm.tsx",
+    "line": 540,
+    "query": "alex",
+    "text": "{showPersonalExtras ? ("
+  },
+  {
+    "file": "components\\resume\\ResumeForm.tsx",
+    "line": 547,
+    "query": "alex",
+    "text": "{showPersonalExtras && ("
+  },
+  {
+    "file": "components\\resume\\ResumeForm.tsx",
+    "line": 690,
+    "query": ".edu",
+    "text": "!visibleSections.education ? \"opacity-50\" : \"\""
+  },
+  {
+    "file": "components\\resume\\ResumeForm.tsx",
+    "line": 699,
+    "query": ".edu",
+    "text": "{expanded.education && ("
+  },
+  {
+    "file": "components\\resume\\ResumeForm.tsx",
+    "line": 707,
+    "query": ".edu",
+    "text": "items={data.education.map((e) => e.id)}"
+  },
+  {
+    "file": "components\\resume\\ResumeForm.tsx",
+    "line": 710,
+    "query": ".edu",
+    "text": "{data.education.map((edu, index) => ("
+  },
+  {
+    "file": "components\\resume\\ResumeForm.tsx",
+    "line": 731,
+    "query": ".edu",
+    "text": "index === data.education.length - 1"
+  },
+  {
+    "file": "lib\\imageToPdf.ts",
+    "line": 83,
+    "query": "alex",
+    "text": "const scaleX = availableWidth / imgDims.width;"
+  },
+  {
+    "file": "lib\\imageToPdf.ts",
+    "line": 85,
+    "query": "alex",
+    "text": "const scale = Math.min(scaleX, scaleY);"
+  },
+  {
+    "file": "lib\\pagesPerSheet.ts",
+    "line": 138,
+    "query": "alex",
+    "text": "const scaleX = cellWidth / originalWidth;"
+  },
+  {
+    "file": "lib\\pagesPerSheet.ts",
+    "line": 140,
+    "query": "alex",
+    "text": "const scale = Math.min(scaleX, scaleY);"
+  },
+  {
+    "file": "lib\\pdfNUp.ts",
+    "line": 88,
+    "query": "alex",
+    "text": "const scaleX = cellWidth / originalWidth;"
+  },
+  {
+    "file": "lib\\pdfNUp.ts",
+    "line": 92,
+    "query": "alex",
+    "text": "const scale = Math.min(scaleX, scaleY);"
+  },
+  {
+    "file": "lib\\utils.ts",
+    "line": 133,
+    "query": ".edu",
+    "text": "score += Math.min(data.educationCount * 7, 20);"
+  }
+]

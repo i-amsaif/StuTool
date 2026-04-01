@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useReactToPrint } from "react-to-print";
-import lzString from "lz-string";
 import {
   initialResumeData,
   ResumeData,
@@ -15,7 +14,6 @@ import ResumePreview from "@/components/resume/ResumePreview";
 import {
   Download,
   FileJson,
-  Share2,
   Upload,
   FileSignature,
   Edit3,
@@ -23,6 +21,9 @@ import {
   LayoutTemplate,
   ZoomIn,
   ZoomOut,
+  MoreVertical,
+  Trash2,
+  FileText,
 } from "lucide-react";
 
 // --- DATA MIGRATION ---
@@ -104,17 +105,17 @@ export default function ResumeBuilderPage() {
   const [isMounted, setIsMounted] = useState(false);
   const [saveStatus, setSaveStatus] = useState<"Saved" | "Saving..." | "">("");
 
-  // Mobile Tab State
+  // Mobile State
   const [activeTab, setActiveTab] = useState<"edit" | "preview" | "layout">(
     "edit"
   );
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // Zoom and Scaling State
   const [baseScale, setBaseScale] = useState(1);
   const [userZoom, setUserZoom] = useState(1);
   const [previewHeight, setPreviewHeight] = useState(1122);
 
-  const fileInputRef = useRef<HTMLInputElement>(null);
   const previewContainerRef = useRef<HTMLDivElement>(null);
   const printRef = useRef<HTMLDivElement>(null);
 
@@ -127,6 +128,11 @@ export default function ResumeBuilderPage() {
     declaration: true,
   });
 
+  // Fresher Mode
+  const [fresherMode, setFresherMode] = useState(false);
+  // Track if user has manually toggled experience visibility
+  const manualExperienceToggle = useRef(false);
+
   // @ts-ignore
   const handlePrint = useReactToPrint({
     contentRef: printRef,
@@ -137,28 +143,6 @@ export default function ResumeBuilderPage() {
 
   useEffect(() => {
     setIsMounted(true);
-
-    // 1. Check URL for shareable link
-    const params = new URLSearchParams(window.location.search);
-    const dataParam = params.get("data");
-    if (dataParam) {
-      try {
-        const decompressed =
-          lzString.decompressFromEncodedURIComponent(dataParam);
-        if (decompressed) {
-          const parsed = JSON.parse(decompressed);
-          setResumeData(migrateResumeData(parsed));
-          window.history.replaceState(
-            {},
-            document.title,
-            window.location.pathname
-          );
-          return;
-        }
-      } catch (e) {
-        alert("Invalid shareable link data.");
-      }
-    }
 
     // 2. Fallback to LocalStorage
     try {
@@ -211,6 +195,18 @@ export default function ResumeBuilderPage() {
     }
   }, [resumeData.experience.length, resumeData.projects.length, isMounted]);
 
+  // Smart auto-hide: hide Experience when empty (unless manually overridden)
+  useEffect(() => {
+    if (!isMounted) return;
+    if (manualExperienceToggle.current) return; // User has manually toggled, don't auto-control
+
+    if (resumeData.experience.length === 0) {
+      setVisibleSections((prev) => ({ ...prev, experience: false }));
+    } else {
+      setVisibleSections((prev) => ({ ...prev, experience: true }));
+    }
+  }, [resumeData.experience.length, isMounted]);
+
   // Scale calculations
   useEffect(() => {
     if (!isMounted) return;
@@ -260,65 +256,38 @@ export default function ResumeBuilderPage() {
     }
   };
 
-  const handleExport = () => {
-    const dataStr = JSON.stringify(resumeData, null, 2);
-    const blob = new Blob([dataStr], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `resume-${
-      resumeData.personal.name
-        ? resumeData.personal.name.replace(/\s+/g, "-").toLowerCase()
-        : "export"
-    }.json`;
-    a.click();
-    URL.revokeObjectURL(url);
-  };
-
-  const handleImport = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      try {
-        const parsed = JSON.parse(event.target?.result as string);
-        if (
-          parsed &&
-          typeof parsed === "object" &&
-          "personal" in parsed &&
-          "education" in parsed
-        ) {
-          if (
-            confirm("Importing will overwrite your current resume. Continue?")
-          ) {
-            setResumeData(migrateResumeData(parsed));
-          }
-        } else {
-          alert("Invalid resume JSON structure.");
+  const handleFresherMode = (enabled: boolean) => {
+    setFresherMode(enabled);
+    if (enabled) {
+      // Hide experience, show projects+skills prominently
+      setVisibleSections((prev) => ({ ...prev, experience: false }));
+      manualExperienceToggle.current = true;
+      // Reorder: move projects and skills above experience
+      setResumeData((prev) => {
+        const order = [...prev.sectionOrder];
+        const projIdx = order.indexOf("projects");
+        const skillsIdx = order.indexOf("skills");
+        const expIdx = order.indexOf("experience");
+        if (projIdx > -1 && expIdx > -1 && projIdx > expIdx) {
+          order.splice(projIdx, 1);
+          order.splice(expIdx, 0, "projects");
         }
-      } catch (err) {
-        alert("Failed to parse JSON file.");
-      }
-    };
-    reader.readAsText(file);
-    e.target.value = "";
-  };
-
-  const handleShare = async () => {
-    try {
-      const compressed = lzString.compressToEncodedURIComponent(
-        JSON.stringify(resumeData)
-      );
-      const url = `${window.location.origin}${window.location.pathname}?data=${compressed}`;
-      await navigator.clipboard.writeText(url);
-      alert(
-        "Shareable link copied to clipboard! You can send this link to anyone."
-      );
-    } catch (e) {
-      alert("Failed to copy link. Data might be too large.");
+        const newSkillsIdx = order.indexOf("skills");
+        const newExpIdx = order.indexOf("experience");
+        if (newSkillsIdx > -1 && newExpIdx > -1 && newSkillsIdx > newExpIdx) {
+          order.splice(newSkillsIdx, 1);
+          order.splice(newExpIdx, 0, "skills");
+        }
+        return { ...prev, sectionOrder: order };
+      });
+    } else {
+      // Re-enable experience visibility
+      setVisibleSections((prev) => ({ ...prev, experience: true }));
+      manualExperienceToggle.current = false;
     }
   };
+
+
 
   const updatePersonal = (
     field: keyof ResumeData["personal"],
@@ -434,6 +403,9 @@ export default function ResumeBuilderPage() {
       | "skills"
       | "declaration"
   ) => {
+    if (section === "experience") {
+      manualExperienceToggle.current = true;
+    }
     setVisibleSections((prev) => ({ ...prev, [section]: !prev[section] }));
   };
 
@@ -531,31 +503,6 @@ export default function ResumeBuilderPage() {
             Resume Builder
           </h1>
           <div className="flex items-center gap-2 ml-4">
-            <button
-              onClick={handleShare}
-              className="flex items-center gap-1.5 text-xs font-medium bg-surface-800 hover:bg-surface-700 text-surface-200 hover:text-white px-2.5 py-1.5 rounded transition-colors"
-            >
-              <Share2 size={14} /> Share Link
-            </button>
-            <button
-              onClick={handleExport}
-              className="flex items-center gap-1.5 text-xs font-medium bg-surface-800 hover:bg-surface-700 text-surface-200 hover:text-white px-2.5 py-1.5 rounded transition-colors"
-            >
-              <FileJson size={14} /> Export
-            </button>
-            <button
-              onClick={() => fileInputRef.current?.click()}
-              className="flex items-center gap-1.5 text-xs font-medium bg-surface-800 hover:bg-surface-700 text-surface-200 hover:text-white px-2.5 py-1.5 rounded transition-colors"
-            >
-              <Upload size={14} /> Import
-            </button>
-            <input
-              type="file"
-              ref={fileInputRef}
-              onChange={handleImport}
-              accept=".json"
-              className="hidden"
-            />
           </div>
           <div className="flex items-center gap-2 ml-2 relative group">
             <button className="flex items-center gap-1.5 text-xs font-medium bg-brand-500/10 hover:bg-brand-500/20 text-brand-300 border border-brand-500/20 px-2.5 py-1.5 rounded transition-colors">
@@ -580,6 +527,23 @@ export default function ResumeBuilderPage() {
         <div className="flex items-center gap-4">
           <div className="text-xs font-medium text-surface-400 min-w-[60px] text-right mr-2">
             {saveStatus}
+          </div>
+          <div className="flex items-center gap-2 mr-2">
+            <label className="text-sm font-medium text-surface-300">
+              Fresher:
+            </label>
+            <button
+              onClick={() => handleFresherMode(!fresherMode)}
+              className={`relative w-9 h-5 rounded-full transition-colors ${
+                fresherMode ? "bg-brand-500" : "bg-surface-700"
+              }`}
+            >
+              <div
+                className={`absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full shadow-md transition-transform ${
+                  fresherMode ? "translate-x-4" : "translate-x-0"
+                }`}
+              />
+            </button>
           </div>
           <div className="flex items-center gap-2 mr-2">
             <label className="text-sm font-medium text-surface-300">
@@ -610,24 +574,92 @@ export default function ResumeBuilderPage() {
         </div>
       </header>
 
-      {/* --- MOBILE COMPACT HEADER --- */}
-      <header className="md:hidden sticky top-0 z-30 w-full bg-surface-900/95 backdrop-blur-md border-b border-surface-800 px-4 py-2 flex justify-between items-center shadow-sm">
-        <h1 className="text-base font-bold bg-gradient-to-r from-brand-400 to-brand-600 bg-clip-text text-transparent">
-          Resume Builder
-        </h1>
-        <div className="flex items-center gap-3">
-          {saveStatus && (
-            <div className="text-[10px] font-bold uppercase tracking-widest text-brand-400 bg-brand-500/10 px-2 py-0.5 rounded-full">
-              {saveStatus}
-            </div>
-          )}
-          <button
-            onClick={handleReset}
-            className="text-xs font-medium text-red-400"
-          >
-            Reset
-          </button>
+    {/* --- MOBILE COMPACT HEADER --- */}
+      <header className="md:hidden sticky top-0 z-30 w-full bg-surface-900/95 backdrop-blur-md border-b border-surface-800 shadow-sm relative">
+        <div className="px-4 py-3 flex justify-between items-center">
+          <h1 className="text-base font-bold bg-gradient-to-r from-brand-400 to-brand-600 bg-clip-text text-transparent">
+            Resume Builder
+          </h1>
+          <div className="flex items-center gap-2">
+            {saveStatus && (
+              <div className="text-[10px] font-bold uppercase tracking-widest text-brand-400 bg-brand-500/10 px-2 py-0.5 rounded-full">
+                {saveStatus}
+              </div>
+            )}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="p-1.5 text-surface-300 hover:text-white hover:bg-surface-800 rounded-md transition-colors"
+            >
+              <MoreVertical size={20} />
+            </button>
+          </div>
         </div>
+
+        {/* Mobile Dropdown Menu Overlay */}
+        {mobileMenuOpen && (
+          <>
+            <div 
+              className="fixed inset-0 z-40 bg-black/20 backdrop-blur-sm"
+              onClick={() => setMobileMenuOpen(false)}
+            />
+            <div className="absolute top-[100%] right-4 z-50 mt-1 w-[200px] bg-surface-800/95 backdrop-blur-md border border-surface-700/50 rounded-xl shadow-2xl flex flex-col py-1 overflow-hidden animate-in slide-in-from-top-2 duration-200 fade-in">
+              <div className="px-3 py-2 border-b border-surface-700/50 flex items-center justify-between">
+                <span className="text-[11px] font-semibold text-surface-400 uppercase tracking-wider">Resume Mode</span>
+                <button
+                  onClick={() => handleFresherMode(!fresherMode)}
+                  className={`relative w-8 h-4 rounded-full transition-colors ${
+                    fresherMode ? "bg-brand-500" : "bg-surface-700"
+                  }`}
+                >
+                  <div
+                    className={`absolute top-0.5 left-0.5 w-3 h-3 bg-white rounded-full shadow-md transition-transform ${
+                      fresherMode ? "translate-x-4" : "translate-x-0"
+                    }`}
+                  />
+                </button>
+              </div>
+              <div className="px-3 pb-2 pt-1 border-b border-surface-700/50">
+                <p className="text-[10px] text-surface-500 leading-tight">
+                  {fresherMode ? "Experience section is hidden." : "Experience section is visible."}
+                </p>
+              </div>
+
+              <div className="px-3 py-1.5 flex flex-col gap-0.5 mt-1 border-b border-surface-700/50 pb-2">
+                <span className="text-[10px] font-semibold text-surface-500 uppercase tracking-wider mb-1 ml-1">Templates</span>
+                <button
+                  onClick={() => {
+                    loadSample("fresher");
+                    setMobileMenuOpen(false);
+                  }}
+                  className="w-full text-left flex items-center gap-2 px-2 py-1.5 text-xs font-medium text-surface-200 hover:text-white hover:bg-surface-700/50 rounded-md transition-colors"
+                >
+                  <FileText size={14} /> Load Fresher
+                </button>
+                <button
+                  onClick={() => {
+                    loadSample("experienced");
+                    setMobileMenuOpen(false);
+                  }}
+                  className="w-full text-left flex items-center gap-2 px-2 py-1.5 text-xs font-medium text-surface-200 hover:text-white hover:bg-surface-700/50 rounded-md transition-colors"
+                >
+                  <FileText size={14} /> Load Experienced
+                </button>
+              </div>
+
+              <div className="p-1 mt-1">
+                <button
+                  onClick={() => {
+                    handleReset();
+                    setMobileMenuOpen(false);
+                  }}
+                  className="w-full text-left flex items-center gap-2 px-2 py-1.5 text-xs font-medium text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded-md transition-colors"
+                >
+                  <Trash2 size={14} /> Reset Data
+                </button>
+              </div>
+            </div>
+          </>
+        )}
       </header>
 
       {/* --- MAIN CONTENT AREA --- */}
@@ -809,35 +841,29 @@ export default function ResumeBuilderPage() {
       </div>
 
       {/* --- MOBILE BOTTOM NAVIGATION DOCK --- */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 h-[64px] bg-surface-900/95 backdrop-blur-md border-t border-surface-800 flex justify-around items-center z-50 pb-safe shadow-[0_-10px_30px_-10px_rgba(0,0,0,0.6)]">
+      <div className="md:hidden fixed bottom-5 left-1/2 -translate-x-1/2 w-[92%] max-w-[380px] h-[64px] bg-surface-900/80 backdrop-blur-xl border border-surface-700/50 rounded-full flex justify-around items-center z-50 p-1.5 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.8)]">
         <button
           onClick={() => setActiveTab("edit")}
-          className={`flex flex-col items-center justify-center w-full h-full gap-1 transition-colors ${
+          className={`flex flex-col items-center justify-center w-full h-full rounded-full transition-all duration-300 ${
             activeTab === "edit"
-              ? "text-brand-400 bg-surface-800/50"
-              : "text-surface-400 hover:text-surface-200"
+              ? "text-brand-400 bg-brand-500/15 scale-100"
+              : "text-surface-400 hover:text-surface-200 scale-95"
           }`}
         >
-          <Edit3
-            size={20}
-            strokeWidth={activeTab === "edit" ? 2.5 : 2}
-          />
-          <span className="text-[10px] font-semibold">Form</span>
+          <Edit3 size={18} strokeWidth={activeTab === "edit" ? 2.5 : 2} />
+          <span className="text-[10px] font-bold mt-0.5">Form</span>
         </button>
 
         <button
           onClick={() => setActiveTab("layout")}
-          className={`flex flex-col items-center justify-center w-full h-full gap-1 transition-colors ${
+          className={`flex flex-col items-center justify-center w-full h-full rounded-full transition-all duration-300 ${
             activeTab === "layout"
-              ? "text-brand-400 bg-surface-800/50"
-              : "text-surface-400 hover:text-surface-200"
+              ? "text-brand-400 bg-brand-500/15 scale-100"
+              : "text-surface-400 hover:text-surface-200 scale-95"
           }`}
         >
-          <LayoutTemplate
-            size={20}
-            strokeWidth={activeTab === "layout" ? 2.5 : 2}
-          />
-          <span className="text-[10px] font-semibold">Layout</span>
+          <LayoutTemplate size={18} strokeWidth={activeTab === "layout" ? 2.5 : 2} />
+          <span className="text-[10px] font-bold mt-0.5">Layout</span>
         </button>
 
         <button
@@ -845,25 +871,22 @@ export default function ResumeBuilderPage() {
             setActiveTab("preview");
             setUserZoom(1);
           }}
-          className={`flex flex-col items-center justify-center w-full h-full gap-1 transition-colors ${
+          className={`flex flex-col items-center justify-center w-full h-full rounded-full transition-all duration-300 ${
             activeTab === "preview"
-              ? "text-brand-400 bg-surface-800/50"
-              : "text-surface-400 hover:text-surface-200"
+              ? "text-brand-400 bg-brand-500/15 scale-100"
+              : "text-surface-400 hover:text-surface-200 scale-95"
           }`}
         >
-          <Eye
-            size={20}
-            strokeWidth={activeTab === "preview" ? 2.5 : 2}
-          />
-          <span className="text-[10px] font-semibold">Preview</span>
+          <Eye size={18} strokeWidth={activeTab === "preview" ? 2.5 : 2} />
+          <span className="text-[10px] font-bold mt-0.5">Preview</span>
         </button>
 
         <button
           onClick={() => handlePrint()}
-          className="flex flex-col items-center justify-center w-full h-full gap-1 text-surface-400 hover:text-brand-400 transition-colors"
+          className="flex flex-col items-center justify-center w-full h-full rounded-full transition-all duration-300 text-surface-400 hover:text-brand-400 scale-95"
         >
-          <Download size={20} />
-          <span className="text-[10px] font-semibold">PDF</span>
+          <Download size={18} />
+          <span className="text-[10px] font-bold mt-0.5">PDF</span>
         </button>
       </div>
     </div>
