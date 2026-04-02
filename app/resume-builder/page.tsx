@@ -818,7 +818,7 @@ export default function ResumeBuilderPage() {
               }}
             >
               <div
-                className="absolute top-0 left-0 bg-white text-black shadow-[0_0_50px_rgba(0,0,0,0.5)] rounded-sm print:shadow-none print:border-none print:rounded-none print:bg-transparent overflow-hidden"
+                className="absolute top-0 left-0 bg-white text-black shadow-[0_0_50px_rgba(0,0,0,0.5)] rounded-sm print:shadow-none print:border-none print:rounded-none print:bg-transparent"
                 style={{
                   transform: `scale(${finalScale})`,
                   transformOrigin: "top left",
@@ -826,7 +826,22 @@ export default function ResumeBuilderPage() {
                   minHeight: "1122px",
                 }}
               >
-                <div ref={printRef} className="w-full h-full">
+                <div ref={printRef} className="w-full h-full relative">
+                  {/* Web Preview Page Break Indicators */}
+                  {Array.from({
+                    length: Math.max(0, Math.ceil(previewHeight / 1122) - 1),
+                  }).map((_, i) => (
+                    <div
+                      key={i}
+                      className="absolute left-0 w-full h-[30px] bg-surface-950 flex items-center justify-center z-50 print:hidden shadow-[inset_0_2px_10px_rgba(0,0,0,0.2)]"
+                      style={{ top: `${(i + 1) * 1122 - 15}px` }}
+                    >
+                      <div className="w-full border-t border-dashed border-surface-700 absolute"></div>
+                      <span className="bg-surface-950 px-3 z-10 text-[10px] text-surface-400 font-bold uppercase tracking-widest">
+                        Page {i + 2}
+                      </span>
+                    </div>
+                  ))}
                   <ResumePreview
                     data={displayData}
                     template={selectedTemplate}

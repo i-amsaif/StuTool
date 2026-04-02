@@ -38,14 +38,27 @@ export default function ModernTemplate({ data }: { data: ResumeData }) {
 
   return (
     <div
-      className="bg-white text-gray-800 w-[210mm] min-h-[297mm] shadow-lg flex flex-row overflow-hidden mx-auto box-border print:shadow-none print:m-0"
+      className="bg-white text-gray-800 w-[210mm] min-h-[297mm] shadow-lg mx-auto box-border print:shadow-none print:m-0"
       style={{
         WebkitPrintColorAdjust: "exact",
         printColorAdjust: "exact",
       }}
     >
-      {/* Left Column */}
-      <div className="w-[35%] bg-slate-100 p-8 flex flex-col gap-8 border-r border-slate-200 print:bg-slate-100 shrink-0">
+      <table className="w-full h-full text-left border-collapse border-0 table-fixed">
+        <thead className="hidden print:table-header-group">
+          <tr>
+            <th colSpan={2} className="p-0 m-0 font-normal border-0 relative h-0">
+              <div className="absolute top-[10mm] right-[15mm] text-right text-[11px] text-slate-400 font-medium z-0">
+                {personal.name || "Resume"} • Continued
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <tbody className="border-0">
+          <tr className="align-top">
+            {/* Left Column */}
+            <td className="w-[35%] bg-slate-100 p-8 border-r border-slate-200 print:bg-slate-100 align-top">
+              <div className="flex flex-col gap-8 relative z-10 bg-slate-100">
         <div
           className="flex flex-col gap-2 cursor-pointer hover:bg-slate-200/50 p-2 -m-2 rounded transition-colors group"
           onClick={() =>
@@ -128,7 +141,7 @@ export default function ModernTemplate({ data }: { data: ResumeData }) {
                 <span className="font-semibold block text-slate-500 text-[10px] uppercase tracking-wider">
                   Date of Birth
                 </span>
-                {formatDate(personal.dob)}
+                {formatDate(personal.dob || "")}
               </div>
             )}
             {personal.gender && (
@@ -176,10 +189,12 @@ export default function ModernTemplate({ data }: { data: ResumeData }) {
             </div>
           </div>
         )}
-      </div>
+              </div>
+            </td>
 
-      {/* Right Column */}
-      <div className="w-[65%] p-8 flex flex-col gap-8 bg-white print:bg-white shrink-0">
+            {/* Right Column */}
+            <td className="w-[65%] p-8 bg-white print:bg-white align-top">
+              <div className="flex flex-col gap-8 relative z-10 bg-white">
         {rightSections.map((sectionId) => {
           switch (sectionId) {
             case "careerObjective":
@@ -397,7 +412,7 @@ export default function ModernTemplate({ data }: { data: ResumeData }) {
                 {declaration.date && (
                   <div>
                     <span className="font-medium">Date:</span>{" "}
-                    {formatDate(declaration.date)}
+                    {formatDate(declaration.date || "")}
                   </div>
                 )}
               </div>
@@ -407,7 +422,11 @@ export default function ModernTemplate({ data }: { data: ResumeData }) {
             </div>
           </section>
         )}
-      </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   );
 }

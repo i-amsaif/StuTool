@@ -242,7 +242,7 @@ export default function MinimalTemplate({ data }: MinimalTemplateProps) {
                 {declaration.date && (
                   <div>
                     <span className="font-medium">Date:</span>{" "}
-                    {formatDate(declaration.date)}
+                    {formatDate(declaration.date || "")}
                   </div>
                 )}
               </div>
@@ -259,73 +259,90 @@ export default function MinimalTemplate({ data }: MinimalTemplateProps) {
   };
 
   return (
-    <div className="bg-white text-black p-8 sm:p-12 w-full max-w-[210mm] mx-auto min-h-[297mm] shadow-lg">
-      {/* Contact Info */}
-      <header
-        className="text-center mb-8 hover:bg-gray-50 transition-colors rounded-xl p-2 -mx-2 cursor-pointer group"
-        onClick={() =>
-          document.getElementById("input-personal-name")?.focus()
-        }
-      >
-        <h1 className="text-3xl font-bold mb-2 group-hover:text-brand-600 transition-colors break-words">
-          {personal.name || "Your Name"}
-        </h1>
-        {hasContactInfo ? (
-          <>
-            <div className="text-sm text-gray-600 flex flex-wrap justify-center gap-2">
-              {personal.email && <span>{personal.email}</span>}
-              {personal.email && personal.phone && (
-                <span className="text-gray-400">•</span>
-              )}
-              {personal.phone && <span>{personal.phone}</span>}
-              {(personal.email || personal.phone) &&
-                personal.location && (
-                  <span className="text-gray-400">•</span>
-                )}
-              {personal.location && <span>{personal.location}</span>}
-            </div>
-            <div className="text-sm text-gray-600 flex flex-wrap justify-center gap-2 mt-1">
-              {personal.linkedin && (
-                <span>LinkedIn: {personal.linkedin}</span>
-              )}
-              {personal.linkedin && personal.github && (
-                <span className="text-gray-400">•</span>
-              )}
-              {personal.github && (
-                <span>GitHub: {personal.github}</span>
-              )}
-            </div>
-            {hasExtras && (
-              <div className="text-sm text-gray-600 flex flex-wrap justify-center gap-2 mt-1">
-                {personal.dob && <span>DOB: {formatDate(personal.dob)}</span>}
-                {personal.dob && personal.gender && (
-                  <span className="text-gray-400">•</span>
-                )}
-                {personal.gender && <span>{personal.gender}</span>}
-                {(personal.dob || personal.gender) && personal.maritalStatus && (
-                  <span className="text-gray-400">•</span>
-                )}
-                {personal.maritalStatus && <span>{personal.maritalStatus}</span>}
-                {(personal.dob || personal.gender || personal.maritalStatus) &&
-                  personal.languages &&
-                  personal.languages.length > 0 && (
-                    <span className="text-gray-400">•</span>
-                  )}
-                {personal.languages && personal.languages.length > 0 && (
-                  <span>Languages: {personal.languages.join(", ")}</span>
-                )}
+    <div className="bg-white text-black w-full max-w-[210mm] mx-auto min-h-[297mm] shadow-lg print:shadow-none">
+      <table className="w-full text-left border-collapse border-0">
+        <thead className="hidden print:table-header-group">
+          <tr>
+            <th className="p-0 m-0 font-normal border-0 relative">
+              <div className="absolute top-[15mm] right-[20mm] text-right text-xs text-gray-400 font-medium z-0">
+                {personal.name || "Resume"} • Continued
               </div>
-            )}
-          </>
-        ) : (
-          <p className="text-sm text-brand-500 italic font-medium">
-            Click here to add your contact details
-          </p>
-        )}
-      </header>
+            </th>
+          </tr>
+        </thead>
+        <tbody className="border-0">
+          <tr>
+            <td className="p-8 sm:p-12 border-0 align-top">
+              {/* Contact Info */}
+              <header
+                className="text-center mb-8 hover:bg-gray-50 transition-colors rounded-xl p-2 -mx-2 cursor-pointer group bg-white relative z-10"
+                onClick={() =>
+                  document.getElementById("input-personal-name")?.focus()
+                }
+              >
+                <h1 className="text-3xl font-bold mb-2 group-hover:text-brand-600 transition-colors break-words">
+                  {personal.name || "Your Name"}
+                </h1>
+                {hasContactInfo ? (
+                  <>
+                    <div className="text-sm text-gray-600 flex flex-wrap justify-center gap-2">
+                      {personal.email && <span>{personal.email}</span>}
+                      {personal.email && personal.phone && (
+                        <span className="text-gray-400">•</span>
+                      )}
+                      {personal.phone && <span>{personal.phone}</span>}
+                      {(personal.email || personal.phone) &&
+                        personal.location && (
+                          <span className="text-gray-400">•</span>
+                        )}
+                      {personal.location && <span>{personal.location}</span>}
+                    </div>
+                    <div className="text-sm text-gray-600 flex flex-wrap justify-center gap-2 mt-1">
+                      {personal.linkedin && (
+                        <span>LinkedIn: {personal.linkedin}</span>
+                      )}
+                      {personal.linkedin && personal.github && (
+                        <span className="text-gray-400">•</span>
+                      )}
+                      {personal.github && (
+                        <span>GitHub: {personal.github}</span>
+                      )}
+                    </div>
+                    {hasExtras && (
+                      <div className="text-sm text-gray-600 flex flex-wrap justify-center gap-2 mt-1">
+                        {personal.dob && <span>DOB: {formatDate(personal.dob || "")}</span>}
+                        {personal.dob && personal.gender && (
+                          <span className="text-gray-400">•</span>
+                        )}
+                        {personal.gender && <span>{personal.gender}</span>}
+                        {(personal.dob || personal.gender) && personal.maritalStatus && (
+                          <span className="text-gray-400">•</span>
+                        )}
+                        {personal.maritalStatus && <span>{personal.maritalStatus}</span>}
+                        {(personal.dob || personal.gender || personal.maritalStatus) &&
+                          personal.languages &&
+                          personal.languages.length > 0 && (
+                            <span className="text-gray-400">•</span>
+                          )}
+                        {personal.languages && personal.languages.length > 0 && (
+                          <span>Languages: {personal.languages.join(", ")}</span>
+                        )}
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <p className="text-sm text-brand-500 italic font-medium">
+                    Click here to add your contact details
+                  </p>
+                )}
+              </header>
 
-      {/* Render sections in order */}
-      {orderedSections.map((sectionId) => renderSection(sectionId))}
+              {/* Render sections in order */}
+              {orderedSections.map((sectionId) => renderSection(sectionId))}
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   );
 }

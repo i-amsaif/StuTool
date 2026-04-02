@@ -519,7 +519,7 @@ export default function ResumeForm({
               />
             </div>
             <div>
-              <label className={labelClass}>LinkedIn URL</label>
+              <label className={labelClass}>LinkedIn URL <span className="text-surface-500 font-normal lowercase ml-1">(Optional)</span></label>
               <input
                 id="input-personal-linkedin"
                 className={inputClass}
@@ -531,11 +531,11 @@ export default function ResumeForm({
               />
             </div>
             <div>
-              <label className={labelClass}>GitHub URL</label>
+              <label className={labelClass}>Portfolio / GitHub URL <span className="text-surface-500 font-normal lowercase ml-1">(Optional)</span></label>
               <input
                 id="input-personal-github"
                 className={inputClass}
-                placeholder="e.g. github.com/yourusername"
+                placeholder="e.g. behance.net/..., github.com/..."
                 value={data.personal.github}
                 onChange={(e) => updatePersonal("github", e.target.value)}
               />
@@ -675,7 +675,7 @@ export default function ResumeForm({
               className={`${inputClass} min-h-[80px] resize-none leading-relaxed`}
               rows={3}
               maxLength={maxChars}
-              placeholder="Motivated Computer Science student seeking an opportunity to apply my skills in software development and contribute to innovative projects in a dynamic organization."
+              placeholder="Motivated student seeking an opportunity to apply my skills and contribute to innovative projects in a dynamic organization."
               value={data.careerObjective}
               onChange={(e) => updateCareerObjective(e.target.value)}
             />
@@ -840,8 +840,8 @@ export default function ResumeForm({
                                   className={inputClass}
                                   placeholder={
                                     edu.level === "Postgraduate"
-                                      ? "e.g. M.Tech in Computer Science"
-                                      : "e.g. B.Tech in Computer Science, BCA, B.Com"
+                                      ? "e.g. MBA, M.Tech in Computer Science, M.Com"
+                                      : "e.g. B.Com, B.A., B.Tech, BCA"
                                   }
                                   value={edu.degree}
                                   onChange={(e) => updateArrayItem("education", edu.id, "degree", e.target.value)}
@@ -1013,7 +1013,7 @@ export default function ResumeForm({
                               <label className={labelClass}>Company Name</label>
                               <input
                                 className={inputClass}
-                                placeholder="e.g. Google"
+                                placeholder="e.g. Deloitte, Google"
                                 value={exp.company}
                                 onChange={(e) => updateArrayItem("experience", exp.id, "company", e.target.value)}
                                 onBlur={(e) => {
@@ -1026,7 +1026,7 @@ export default function ResumeForm({
                               <label className={labelClass}>Job Title</label>
                               <input
                                 className={inputClass}
-                                placeholder="e.g. Software Engineer"
+                                placeholder="e.g. Marketing Intern, Software Engineer"
                                 value={exp.position}
                                 onChange={(e) => updateArrayItem("experience", exp.id, "position", e.target.value)}
                                 onBlur={(e) => {
@@ -1198,11 +1198,11 @@ export default function ResumeForm({
                                 <Wand2 size={12} /> Auto-Format Bullets
                               </button>
                             </div>
-                            <InlineTip text="Mention tech stack used and key outcomes or impact." />
+                            <InlineTip text="Mention skills/tools used and key outcomes or impact." />
                             <textarea
                               id={`input-proj-desc-${proj.id}`}
                               className={`${inputClass} min-h-[90px]`}
-                              placeholder="- Built a full-stack application..."
+                              placeholder="- Designed a marketing campaign... or - Built a full-stack application..."
                               value={proj.description}
                               onChange={(e) => updateArrayItem("projects", proj.id, "description", e.target.value)}
                             />
@@ -1240,10 +1240,10 @@ export default function ResumeForm({
       {expanded.skills && (
         <div className="p-4 sm:p-5 animate-in slide-in-from-top-2 duration-200">
           <label className={labelClass}>Add a skill (Press Enter)</label>
-          <InlineTip text="Add relevant technologies only (React, Python, SQL). Avoid generic terms." />
+          <InlineTip text="Add relevant skills only (e.g. Project Management, React). Avoid generic terms." />
           <input
             className={inputClass}
-            placeholder="e.g. Java, Python, React, MySQL..."
+            placeholder="e.g. Digital Marketing, Java, SEO, React..."
             value={skillInput}
             onChange={(e) => setSkillInput(e.target.value)}
             onKeyDown={handleAddSkill}

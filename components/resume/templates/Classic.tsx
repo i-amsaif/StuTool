@@ -217,93 +217,110 @@ export default function ClassicTemplate({ data }: { data: ResumeData }) {
 
   return (
     <div
-      className="bg-white text-black p-12 w-[210mm] min-h-[297mm] shadow-lg font-serif box-border mx-auto print:shadow-none print:m-0 print:p-10"
+      className="bg-white text-black w-[210mm] min-h-[297mm] shadow-lg font-serif box-border mx-auto print:shadow-none print:m-0"
       style={{
         WebkitPrintColorAdjust: "exact",
         printColorAdjust: "exact",
       }}
     >
-      <header
-        className="text-center border-b-[2px] border-black pb-4 mb-6 hover:bg-gray-50/80 p-4 -m-4 rounded cursor-pointer transition-colors group"
-        onClick={() =>
-          document.getElementById("input-personal-name")?.focus()
-        }
-      >
-        <h1 className="text-[2.5rem] font-bold uppercase tracking-wider mb-2 leading-tight group-hover:text-brand-700 transition-colors break-words">
-          {personal.name || "YOUR NAME"}
-        </h1>
-        {hasContactInfo ? (
-          <>
-            <div className="text-sm flex flex-wrap justify-center items-center gap-x-2 gap-y-1">
-              {personal.location && <span>{personal.location}</span>}
-              {personal.location &&
-                (personal.phone || personal.email) && <span>|</span>}
-              {personal.phone && <span>{personal.phone}</span>}
-              {personal.phone && personal.email && <span>|</span>}
-              {personal.email && <span>{personal.email}</span>}
-            </div>
-            <div className="text-sm flex flex-wrap justify-center items-center gap-x-2 gap-y-1 mt-1">
-              {personal.linkedin && <span>{personal.linkedin}</span>}
-              {personal.linkedin && personal.github && <span>|</span>}
-              {personal.github && <span>{personal.github}</span>}
-            </div>
-            {hasExtras && (
-              <div className="text-sm flex flex-wrap justify-center items-center gap-x-2 gap-y-1 mt-1">
-                {personal.dob && <span>DOB: {formatDate(personal.dob)}</span>}
-                {personal.dob && personal.gender && <span>|</span>}
-                {personal.gender && <span>{personal.gender}</span>}
-                {(personal.dob || personal.gender) && personal.maritalStatus && <span>|</span>}
-                {personal.maritalStatus && <span>{personal.maritalStatus}</span>}
-                {(personal.dob || personal.gender || personal.maritalStatus) &&
-                  personal.languages &&
-                  personal.languages.length > 0 && <span>|</span>}
-                {personal.languages && personal.languages.length > 0 && (
-                  <span>Languages: {personal.languages.join(", ")}</span>
-                )}
+      <table className="w-full text-left border-collapse border-0">
+        <thead className="hidden print:table-header-group">
+          <tr>
+            <th className="font-normal p-0 m-0 border-0 relative h-0">
+              <div className="absolute top-[10mm] right-[15mm] text-right text-[11px] text-gray-500 font-sans tracking-widest z-0">
+                {personal.name || "Resume"} • Continued
               </div>
-            )}
-          </>
-        ) : (
-          <p className="text-[13px] text-gray-400 italic font-sans font-medium">
-            Click to populate professional contact details
-          </p>
-        )}
-      </header>
+            </th>
+          </tr>
+        </thead>
+        <tbody className="border-0">
+          <tr>
+            <td className="p-12 print:p-10 border-0 align-top">
+              <header
+                className="text-center border-b-[2px] border-black pb-4 mb-6 hover:bg-gray-50/80 p-4 -m-4 rounded cursor-pointer transition-colors group bg-white relative z-10"
+                onClick={() =>
+                  document.getElementById("input-personal-name")?.focus()
+                }
+              >
+                <h1 className="text-[2.5rem] font-bold uppercase tracking-wider mb-2 leading-tight group-hover:text-brand-700 transition-colors break-words">
+                  {personal.name || "YOUR NAME"}
+                </h1>
+                {hasContactInfo ? (
+                  <>
+                    <div className="text-sm flex flex-wrap justify-center items-center gap-x-2 gap-y-1">
+                      {personal.location && <span>{personal.location}</span>}
+                      {personal.location &&
+                        (personal.phone || personal.email) && <span>|</span>}
+                      {personal.phone && <span>{personal.phone}</span>}
+                      {personal.phone && personal.email && <span>|</span>}
+                      {personal.email && <span>{personal.email}</span>}
+                    </div>
+                    <div className="text-sm flex flex-wrap justify-center items-center gap-x-2 gap-y-1 mt-1">
+                      {personal.linkedin && <span>{personal.linkedin}</span>}
+                      {personal.linkedin && personal.github && <span>|</span>}
+                      {personal.github && <span>{personal.github}</span>}
+                    </div>
+                    {hasExtras && (
+                      <div className="text-sm flex flex-wrap justify-center items-center gap-x-2 gap-y-1 mt-1">
+                        {personal.dob && <span>DOB: {formatDate(personal.dob || "")}</span>}
+                        {personal.dob && personal.gender && <span>|</span>}
+                        {personal.gender && <span>{personal.gender}</span>}
+                        {(personal.dob || personal.gender) && personal.maritalStatus && <span>|</span>}
+                        {personal.maritalStatus && <span>{personal.maritalStatus}</span>}
+                        {(personal.dob || personal.gender || personal.maritalStatus) &&
+                          personal.languages &&
+                          personal.languages.length > 0 && <span>|</span>}
+                        {personal.languages && personal.languages.length > 0 && (
+                          <span>Languages: {personal.languages.join(", ")}</span>
+                        )}
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <p className="text-[13px] text-gray-400 italic font-sans font-medium">
+                    Click to populate professional contact details
+                  </p>
+                )}
+              </header>
 
-      {/* Render sections in order */}
-      {orderedSections.map((sectionId) => renderSection(sectionId))}
+              {/* Render sections in order */}
+              {orderedSections.map((sectionId) => renderSection(sectionId))}
 
-      {/* Declaration — always last */}
-      {declaration?.enabled && (
-        <section className="mt-8 pt-4 border-t-[2px] border-gray-300">
-          <h2 className="text-lg font-bold uppercase tracking-widest mb-3 pb-1">
-            Declaration
-          </h2>
-          <p className="text-[0.9rem] leading-relaxed italic mb-6">
-            I hereby declare that the above information is true to the
-            best of my knowledge and belief.
-          </p>
-          <div className="flex justify-between items-end">
-            <div className="text-sm">
-              {declaration.place && (
-                <div>
-                  <span className="font-bold">Place:</span>{" "}
-                  {declaration.place}
-                </div>
+              {/* Declaration — always last */}
+              {declaration?.enabled && (
+                <section className="mt-8 pt-4 border-t-[2px] border-gray-300 break-inside-avoid">
+                  <h2 className="text-lg font-bold uppercase tracking-widest mb-3 pb-1">
+                    Declaration
+                  </h2>
+                  <p className="text-[0.9rem] leading-relaxed italic mb-6">
+                    I hereby declare that the above information is true to the
+                    best of my knowledge and belief.
+                  </p>
+                  <div className="flex justify-between items-end">
+                    <div className="text-sm">
+                      {declaration.place && (
+                        <div>
+                          <span className="font-bold">Place:</span>{" "}
+                          {declaration.place}
+                        </div>
+                      )}
+                      {declaration.date && (
+                        <div>
+                          <span className="font-bold">Date:</span>{" "}
+                          {formatDate(declaration.date || "")}
+                        </div>
+                      )}
+                    </div>
+                    <div className="text-sm font-bold text-right">
+                      ({personal.name || "Your Name"})
+                    </div>
+                  </div>
+                </section>
               )}
-              {declaration.date && (
-                <div>
-                  <span className="font-bold">Date:</span>{" "}
-                  {formatDate(declaration.date)}
-                </div>
-              )}
-            </div>
-            <div className="text-sm font-bold text-right">
-              ({personal.name || "Your Name"})
-            </div>
-          </div>
-        </section>
-      )}
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   );
 }
