@@ -56,6 +56,19 @@ const tools = [
     gradient: "from-red-800 to-brand-500",
   },
   {
+    id: "pdf-to-image",
+    title: "PDF to Image",
+    description: "Convert PDF pages into high-quality JPG or PNG images.",
+    icon: (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+        <circle cx="8.5" cy="8.5" r="1.5" />
+        <polyline points="21 15 16 10 5 21" />
+      </svg>
+    ),
+    gradient: "from-brand-500 to-red-600",
+  },
+  {
     id: "compress",
     title: "Compress PDF",
     description: "Significantly reduce your PDF file size locally in your browser to make it easier to share.",
