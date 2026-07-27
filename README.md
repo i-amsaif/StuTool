@@ -6,7 +6,7 @@
 
 Powerful online PDF tools and a professional Resume Builder — fast, simple, and privacy-focused.
 
-🌐 **Live Demo:** https://studtool.in
+🌐 **Live Demo:** https://stutool.in
 
 </div>
 
@@ -110,7 +110,7 @@ http://localhost:3000
 
 ## 🌐 Live Website
 
-👉 https://studtool.in
+👉 https://stutool.in
 
 ---
 
