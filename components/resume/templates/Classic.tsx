@@ -1,5 +1,6 @@
 import React from "react";
 import { ResumeData, DEGREE_VISIBLE_LEVELS } from "@/lib/resumeSchema";
+import { RESUME_SPACING } from "../layoutConstants";
 
 function formatMarks(edu: { marksType: string; marks: string }): string {
   if (!edu.marks) return "";
@@ -43,11 +44,11 @@ export default function ClassicTemplate({ data }: { data: ResumeData }) {
     switch (sectionId) {
       case "careerObjective":
         return careerObjective ? (
-          <section key="objective" className="mb-6">
-            <h2 className="text-lg font-bold uppercase tracking-widest border-b border-gray-300 mb-3 pb-1">
+          <section key="objective" className={RESUME_SPACING.sectionBottom}>
+            <h2 className={`text-lg font-bold uppercase tracking-widest border-b border-gray-300 pb-1 ${RESUME_SPACING.titleBottom}`}>
               Career Objective
             </h2>
-            <p className="text-[0.9rem] leading-relaxed italic">
+            <p className={`text-[0.9rem] italic ${RESUME_SPACING.bodyLineHeight}`}>
               {careerObjective}
             </p>
           </section>
@@ -56,11 +57,11 @@ export default function ClassicTemplate({ data }: { data: ResumeData }) {
       case "education":
         if (!education || education.length === 0) return null;
         return (
-          <section key="education" className="mb-6">
-            <h2 className="text-lg font-bold uppercase tracking-widest border-b border-gray-300 mb-3 pb-1">
+          <section key="education" className={RESUME_SPACING.sectionBottom}>
+            <h2 className={`text-lg font-bold uppercase tracking-widest border-b border-gray-300 pb-1 ${RESUME_SPACING.titleBottom}`}>
               Education
             </h2>
-            <div className="flex flex-col gap-4">
+            <div className={`flex flex-col ${RESUME_SPACING.itemGap}`}>
               {education.map((edu) => (
                 <div
                   key={edu.id}
@@ -106,7 +107,7 @@ export default function ClassicTemplate({ data }: { data: ResumeData }) {
                     )}
                   </div>
                   {edu.description && (
-                    <p className="text-[0.9rem] leading-relaxed whitespace-pre-wrap">
+                    <p className={`text-[0.9rem] whitespace-pre-wrap ${RESUME_SPACING.bodyLineHeight}`}>
                       {edu.description}
                     </p>
                   )}
@@ -119,11 +120,11 @@ export default function ClassicTemplate({ data }: { data: ResumeData }) {
       case "experience":
         if (!experience || experience.length === 0) return null;
         return (
-          <section key="experience" className="mb-6">
-            <h2 className="text-lg font-bold uppercase tracking-widest border-b border-gray-300 mb-3 pb-1">
+          <section key="experience" className={RESUME_SPACING.sectionBottom}>
+            <h2 className={`text-lg font-bold uppercase tracking-widest border-b border-gray-300 pb-1 ${RESUME_SPACING.titleBottom}`}>
               Professional Experience
             </h2>
-            <div className="flex flex-col gap-4">
+            <div className={`flex flex-col ${RESUME_SPACING.itemGap}`}>
               {experience.map((exp) => (
                 <div
                   key={exp.id}
@@ -151,7 +152,7 @@ export default function ClassicTemplate({ data }: { data: ResumeData }) {
                     {exp.company || "Company"}
                   </div>
                   {exp.description && (
-                    <p className="text-[0.9rem] leading-relaxed whitespace-pre-wrap">
+                    <p className={`text-[0.9rem] whitespace-pre-wrap ${RESUME_SPACING.bodyLineHeight}`}>
                       {exp.description}
                     </p>
                   )}
@@ -164,11 +165,11 @@ export default function ClassicTemplate({ data }: { data: ResumeData }) {
       case "skills":
         if (!skills || skills.length === 0) return null;
         return (
-          <section key="skills" className="mb-6 break-inside-avoid">
-            <h2 className="text-lg font-bold uppercase tracking-widest border-b border-gray-300 mb-3 pb-1">
+          <section key="skills" className={`${RESUME_SPACING.sectionBottom} break-inside-avoid`}>
+            <h2 className={`text-lg font-bold uppercase tracking-widest border-b border-gray-300 pb-1 ${RESUME_SPACING.titleBottom}`}>
               Skills
             </h2>
-            <p className="text-[0.9rem] leading-relaxed font-medium break-words">
+            <p className={`text-[0.9rem] font-medium break-words ${RESUME_SPACING.bodyLineHeight}`}>
               {skills.join(" • ")}
             </p>
           </section>
@@ -176,11 +177,11 @@ export default function ClassicTemplate({ data }: { data: ResumeData }) {
 
       case "projects":
         return projects && projects.length > 0 ? (
-          <section key="projects" className="mb-6">
-            <h2 className="text-lg font-bold uppercase tracking-widest border-b border-gray-300 mb-3 pb-1">
+          <section key="projects" className={RESUME_SPACING.sectionBottom}>
+            <h2 className={`text-lg font-bold uppercase tracking-widest border-b border-gray-300 pb-1 ${RESUME_SPACING.titleBottom}`}>
               Projects
             </h2>
-            <div className="flex flex-col gap-4">
+            <div className={`flex flex-col ${RESUME_SPACING.itemGap}`}>
               {projects.map((proj) => (
                 <div
                   key={proj.id}
@@ -200,7 +201,7 @@ export default function ClassicTemplate({ data }: { data: ResumeData }) {
                     )}
                   </div>
                   {proj.description && (
-                    <p className="text-[0.9rem] leading-relaxed whitespace-pre-wrap mt-0.5">
+                    <p className={`text-[0.9rem] whitespace-pre-wrap mt-0.5 ${RESUME_SPACING.bodyLineHeight}`}>
                       {proj.description}
                     </p>
                   )}
@@ -235,9 +236,9 @@ export default function ClassicTemplate({ data }: { data: ResumeData }) {
         </thead>
         <tbody className="border-0">
           <tr>
-            <td className="p-12 print:p-10 border-0 align-top">
+            <td className={`${RESUME_SPACING.pagePadding} border-0 align-top`}>
               <header
-                className="text-center border-b-[2px] border-black pb-4 mb-6 hover:bg-gray-50/80 p-4 -m-4 rounded cursor-pointer transition-colors group bg-white relative z-10"
+                className="text-center border-b-[2px] border-black pb-4 mb-4 hover:bg-gray-50/80 p-4 -m-4 rounded cursor-pointer transition-colors group bg-white relative z-10"
                 onClick={() =>
                   document.getElementById("input-personal-name")?.focus()
                 }
@@ -288,11 +289,11 @@ export default function ClassicTemplate({ data }: { data: ResumeData }) {
 
               {/* Declaration — always last */}
               {declaration?.enabled && (
-                <section className="mt-8 pt-4 border-t-[2px] border-gray-300 break-inside-avoid">
-                  <h2 className="text-lg font-bold uppercase tracking-widest mb-3 pb-1">
+                <section className="mt-6 pt-4 border-t-[2px] border-gray-300 break-inside-avoid">
+                  <h2 className={`text-lg font-bold uppercase tracking-widest pb-1 ${RESUME_SPACING.titleBottom}`}>
                     Declaration
                   </h2>
-                  <p className="text-[0.9rem] leading-relaxed italic mb-6">
+                  <p className={`text-[0.9rem] italic mb-6 ${RESUME_SPACING.bodyLineHeight}`}>
                     I hereby declare that the above information is true to the
                     best of my knowledge and belief.
                   </p>

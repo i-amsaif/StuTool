@@ -1,5 +1,6 @@
 import React from "react";
 import { ResumeData, DEGREE_VISIBLE_LEVELS } from "@/lib/resumeSchema";
+import { RESUME_SPACING } from "../layoutConstants";
 
 function formatMarks(edu: { marksType: string; marks: string }): string {
   if (!edu.marks) return "";
@@ -57,8 +58,8 @@ export default function ModernTemplate({ data }: { data: ResumeData }) {
         <tbody className="border-0">
           <tr className="align-top">
             {/* Left Column */}
-            <td className="w-[35%] bg-slate-100 p-8 border-r border-slate-200 print:bg-slate-100 align-top">
-              <div className="flex flex-col gap-8 relative z-10 bg-slate-100">
+            <td className={`w-[35%] bg-slate-100 border-r border-slate-200 print:bg-slate-100 align-top ${RESUME_SPACING.pagePadding}`}>
+              <div className="flex flex-col gap-5 relative z-10 bg-slate-100">
         <div
           className="flex flex-col gap-2 cursor-pointer hover:bg-slate-200/50 p-2 -m-2 rounded transition-colors group"
           onClick={() =>
@@ -193,20 +194,20 @@ export default function ModernTemplate({ data }: { data: ResumeData }) {
             </td>
 
             {/* Right Column */}
-            <td className="w-[65%] p-8 bg-white print:bg-white align-top">
-              <div className="flex flex-col gap-8 relative z-10 bg-white">
+            <td className={`w-[65%] bg-white print:bg-white align-top ${RESUME_SPACING.pagePadding}`}>
+              <div className="flex flex-col gap-5 relative z-10 bg-white">
         {rightSections.map((sectionId) => {
           switch (sectionId) {
             case "careerObjective":
               return careerObjective ? (
                 <section key="objective">
-                  <h2 className="text-lg font-bold uppercase tracking-widest text-slate-900 border-b-2 border-slate-100 pb-2 mb-4 flex items-center gap-2">
+                  <h2 className={`text-lg font-bold uppercase tracking-widest text-slate-900 border-b-2 border-slate-100 pb-2 flex items-center gap-2 ${RESUME_SPACING.titleBottom}`}>
                     <span className="w-5 h-5 rounded-md bg-blue-100 text-blue-600 flex items-center justify-center text-[11px] print:bg-blue-100 print:color-adjust-exact">
                       🎯
                     </span>{" "}
                     Career Objective
                   </h2>
-                  <p className="text-sm text-slate-700 leading-relaxed italic">
+                  <p className={`text-sm text-slate-700 italic ${RESUME_SPACING.bodyLineHeight}`}>
                     {careerObjective}
                   </p>
                 </section>
@@ -216,13 +217,13 @@ export default function ModernTemplate({ data }: { data: ResumeData }) {
               if (!education || education.length === 0) return null;
               return (
                 <section key="education">
-                  <h2 className="text-lg font-bold uppercase tracking-widest text-slate-900 border-b-2 border-slate-100 pb-2 mb-4 flex items-center gap-2">
+                  <h2 className={`text-lg font-bold uppercase tracking-widest text-slate-900 border-b-2 border-slate-100 pb-2 flex items-center gap-2 ${RESUME_SPACING.titleBottom}`}>
                     <span className="w-5 h-5 rounded-md bg-blue-100 text-blue-600 flex items-center justify-center text-[11px] print:bg-blue-100 print:color-adjust-exact">
                       🎓
                     </span>{" "}
                     Education
                   </h2>
-                  <div className="flex flex-col gap-5">
+                  <div className={`flex flex-col ${RESUME_SPACING.itemGap}`}>
                     {education.map((edu) => (
                       <div
                         key={edu.id}
@@ -277,7 +278,7 @@ export default function ModernTemplate({ data }: { data: ResumeData }) {
                           )}
                         </div>
                         {edu.description && (
-                          <p className="text-sm text-slate-700 leading-relaxed whitespace-pre-wrap">
+                          <p className={`text-sm text-slate-700 whitespace-pre-wrap ${RESUME_SPACING.bodyLineHeight}`}>
                             {edu.description}
                           </p>
                         )}
@@ -291,13 +292,13 @@ export default function ModernTemplate({ data }: { data: ResumeData }) {
               if (!experience || experience.length === 0) return null;
               return (
                 <section key="experience">
-                  <h2 className="text-lg font-bold uppercase tracking-widest text-slate-900 border-b-2 border-slate-100 pb-2 mb-4 flex items-center gap-2">
+                  <h2 className={`text-lg font-bold uppercase tracking-widest text-slate-900 border-b-2 border-slate-100 pb-2 flex items-center gap-2 ${RESUME_SPACING.titleBottom}`}>
                     <span className="w-5 h-5 rounded-md bg-blue-100 text-blue-600 flex items-center justify-center text-[11px] print:bg-blue-100 print:color-adjust-exact">
                       💼
                     </span>{" "}
                     Experience
                   </h2>
-                  <div className="flex flex-col gap-6">
+                  <div className={`flex flex-col ${RESUME_SPACING.itemGap}`}>
                     {experience.map((exp) => (
                       <div
                         key={exp.id}
@@ -327,7 +328,7 @@ export default function ModernTemplate({ data }: { data: ResumeData }) {
                           {exp.company || "Company"}
                         </div>
                         {exp.description && (
-                          <p className="text-sm text-slate-700 leading-relaxed whitespace-pre-wrap">
+                          <p className={`text-sm text-slate-700 whitespace-pre-wrap ${RESUME_SPACING.bodyLineHeight}`}>
                             {exp.description}
                           </p>
                         )}
@@ -340,13 +341,13 @@ export default function ModernTemplate({ data }: { data: ResumeData }) {
             case "projects":
               return projects && projects.length > 0 ? (
                 <section key="projects">
-                  <h2 className="text-lg font-bold uppercase tracking-widest text-slate-900 border-b-2 border-slate-100 pb-2 mb-4 flex items-center gap-2">
+                  <h2 className={`text-lg font-bold uppercase tracking-widest text-slate-900 border-b-2 border-slate-100 pb-2 flex items-center gap-2 ${RESUME_SPACING.titleBottom}`}>
                     <span className="w-5 h-5 rounded-md bg-blue-100 text-blue-600 flex items-center justify-center text-[11px] print:bg-blue-100 print:color-adjust-exact">
                       🚀
                     </span>{" "}
                     Projects
                   </h2>
-                  <div className="flex flex-col gap-5">
+                  <div className={`flex flex-col ${RESUME_SPACING.itemGap}`}>
                     {projects.map((proj) => (
                       <div
                         key={proj.id}
@@ -373,7 +374,7 @@ export default function ModernTemplate({ data }: { data: ResumeData }) {
                           )}
                         </div>
                         {proj.description && (
-                          <p className="text-sm text-slate-700 leading-relaxed whitespace-pre-wrap mt-1">
+                          <p className={`text-sm text-slate-700 whitespace-pre-wrap mt-1 ${RESUME_SPACING.bodyLineHeight}`}>
                             {proj.description}
                           </p>
                         )}
@@ -391,13 +392,13 @@ export default function ModernTemplate({ data }: { data: ResumeData }) {
         {/* Declaration — always last in right column */}
         {declaration?.enabled && (
           <section className="mt-8 pt-4 border-t border-slate-200">
-            <h2 className="text-lg font-bold uppercase tracking-widest text-slate-900 mb-3 flex items-center gap-2">
+            <h2 className={`text-lg font-bold uppercase tracking-widest text-slate-900 flex items-center gap-2 ${RESUME_SPACING.titleBottom}`}>
               <span className="w-5 h-5 rounded-md bg-blue-100 text-blue-600 flex items-center justify-center text-[11px] print:bg-blue-100 print:color-adjust-exact">
                 📜
               </span>{" "}
               Declaration
             </h2>
-            <p className="text-sm text-slate-700 italic leading-relaxed mb-6">
+            <p className={`text-sm text-slate-700 italic mb-6 ${RESUME_SPACING.bodyLineHeight}`}>
               I hereby declare that the above information is true to the
               best of my knowledge and belief.
             </p>

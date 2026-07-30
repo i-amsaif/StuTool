@@ -1,5 +1,6 @@
 import React from "react";
 import { ResumeData, DEGREE_VISIBLE_LEVELS } from "@/lib/resumeSchema";
+import { RESUME_SPACING } from "../layoutConstants";
 
 interface MinimalTemplateProps {
   data: ResumeData;
@@ -46,11 +47,11 @@ export default function MinimalTemplate({ data }: MinimalTemplateProps) {
     switch (sectionId) {
       case "careerObjective":
         return careerObjective ? (
-          <section key="objective" className="mb-7">
-            <h2 className="text-[1.1rem] font-bold border-b border-gray-400 mb-4 pb-1 uppercase tracking-wider text-gray-800">
+          <section key="objective" className={RESUME_SPACING.sectionBottom}>
+            <h2 className={`text-[1.1rem] font-bold border-b border-gray-400 pb-1 uppercase tracking-wider text-gray-800 ${RESUME_SPACING.titleBottom}`}>
               Career Objective
             </h2>
-            <p className="text-sm text-gray-700 leading-relaxed italic">
+            <p className={`text-sm text-gray-700 italic ${RESUME_SPACING.bodyLineHeight}`}>
               {careerObjective}
             </p>
           </section>
@@ -59,11 +60,11 @@ export default function MinimalTemplate({ data }: MinimalTemplateProps) {
       case "education":
         if (!education || education.length === 0) return null;
         return (
-          <section key="education" className="mb-7">
-            <h2 className="text-[1.1rem] font-bold border-b border-gray-400 mb-4 pb-1 uppercase tracking-wider text-gray-800">
+          <section key="education" className={RESUME_SPACING.sectionBottom}>
+            <h2 className={`text-[1.1rem] font-bold border-b border-gray-400 pb-1 uppercase tracking-wider text-gray-800 ${RESUME_SPACING.titleBottom}`}>
               Education
             </h2>
-            <div className="flex flex-col gap-4">
+            <div className={`flex flex-col ${RESUME_SPACING.itemGap}`}>
               {education.map((edu) => (
                 <div
                   key={edu.id}
@@ -111,7 +112,7 @@ export default function MinimalTemplate({ data }: MinimalTemplateProps) {
                     )}
                   </div>
                   {edu.description && (
-                    <p className="text-sm text-gray-600 whitespace-pre-wrap leading-relaxed">
+                    <p className={`text-sm text-gray-600 whitespace-pre-wrap ${RESUME_SPACING.bodyLineHeight}`}>
                       {edu.description}
                     </p>
                   )}
@@ -124,11 +125,11 @@ export default function MinimalTemplate({ data }: MinimalTemplateProps) {
       case "experience":
         if (!experience || experience.length === 0) return null;
         return (
-          <section key="experience" className="mb-7">
-            <h2 className="text-[1.1rem] font-bold border-b border-gray-400 mb-4 pb-1 uppercase tracking-wider text-gray-800">
+          <section key="experience" className={RESUME_SPACING.sectionBottom}>
+            <h2 className={`text-[1.1rem] font-bold border-b border-gray-400 pb-1 uppercase tracking-wider text-gray-800 ${RESUME_SPACING.titleBottom}`}>
               Experience
             </h2>
-            <div className="flex flex-col gap-5">
+            <div className={`flex flex-col ${RESUME_SPACING.itemGap}`}>
               {experience.map((exp) => (
                 <div
                   key={exp.id}
@@ -157,7 +158,7 @@ export default function MinimalTemplate({ data }: MinimalTemplateProps) {
                     {exp.company || "Company Name"}
                   </div>
                   {exp.description && (
-                    <p className="text-sm text-gray-700 whitespace-pre-wrap leading-relaxed">
+                    <p className={`text-sm text-gray-700 whitespace-pre-wrap ${RESUME_SPACING.bodyLineHeight}`}>
                       {exp.description}
                     </p>
                   )}
@@ -170,11 +171,11 @@ export default function MinimalTemplate({ data }: MinimalTemplateProps) {
       case "skills":
         if (!skills || skills.length === 0) return null;
         return (
-          <section key="skills" className="mb-7">
-            <h2 className="text-[1.1rem] font-bold border-b border-gray-400 mb-4 pb-1 uppercase tracking-wider text-gray-800">
+          <section key="skills" className={RESUME_SPACING.sectionBottom}>
+            <h2 className={`text-[1.1rem] font-bold border-b border-gray-400 pb-1 uppercase tracking-wider text-gray-800 ${RESUME_SPACING.titleBottom}`}>
               Skills
             </h2>
-            <div className="text-sm text-gray-700 leading-relaxed font-medium break-words">
+            <div className={`text-sm text-gray-700 font-medium break-words ${RESUME_SPACING.bodyLineHeight}`}>
               {skills.join(" • ")}
             </div>
           </section>
@@ -182,11 +183,11 @@ export default function MinimalTemplate({ data }: MinimalTemplateProps) {
 
       case "projects":
         return projects && projects.length > 0 ? (
-          <section key="projects" className="mb-7">
-            <h2 className="text-[1.1rem] font-bold border-b border-gray-400 mb-4 pb-1 uppercase tracking-wider text-gray-800">
+          <section key="projects" className={RESUME_SPACING.sectionBottom}>
+            <h2 className={`text-[1.1rem] font-bold border-b border-gray-400 pb-1 uppercase tracking-wider text-gray-800 ${RESUME_SPACING.titleBottom}`}>
               Projects
             </h2>
-            <div className="flex flex-col gap-4">
+            <div className={`flex flex-col ${RESUME_SPACING.itemGap}`}>
               {projects.map((proj) => (
                 <div
                   key={proj.id}
@@ -208,7 +209,7 @@ export default function MinimalTemplate({ data }: MinimalTemplateProps) {
                     )}
                   </div>
                   {proj.description && (
-                    <p className="text-sm text-gray-700 whitespace-pre-wrap leading-relaxed">
+                    <p className={`text-sm text-gray-700 whitespace-pre-wrap ${RESUME_SPACING.bodyLineHeight}`}>
                       {proj.description}
                     </p>
                   )}
@@ -224,10 +225,10 @@ export default function MinimalTemplate({ data }: MinimalTemplateProps) {
             key="declaration"
             className="mt-8 pt-4 border-t border-gray-300"
           >
-            <h2 className="text-[1.1rem] font-bold mb-3 uppercase tracking-wider text-gray-800">
+            <h2 className={`text-[1.1rem] font-bold uppercase tracking-wider text-gray-800 ${RESUME_SPACING.titleBottom}`}>
               Declaration
             </h2>
-            <p className="text-sm text-gray-700 italic leading-relaxed mb-6">
+            <p className={`text-sm text-gray-700 italic mb-6 ${RESUME_SPACING.bodyLineHeight}`}>
               I hereby declare that the above information is true to the
               best of my knowledge and belief.
             </p>
@@ -272,10 +273,10 @@ export default function MinimalTemplate({ data }: MinimalTemplateProps) {
         </thead>
         <tbody className="border-0">
           <tr>
-            <td className="p-8 sm:p-12 border-0 align-top">
+            <td className={`${RESUME_SPACING.pagePadding} border-0 align-top`}>
               {/* Contact Info */}
               <header
-                className="text-center mb-8 hover:bg-gray-50 transition-colors rounded-xl p-2 -mx-2 cursor-pointer group bg-white relative z-10"
+                className="text-center mb-5 hover:bg-gray-50 transition-colors rounded-xl p-2 -mx-2 cursor-pointer group bg-white relative z-10"
                 onClick={() =>
                   document.getElementById("input-personal-name")?.focus()
                 }

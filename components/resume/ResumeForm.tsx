@@ -1,4 +1,5 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo, useEffect, useCallback } from "react";
+import { useAIEnhance } from "@/hooks/useAIEnhance";
 import {
   ResumeData,
   Education,
@@ -7,12 +8,12 @@ import {
   validateMarks,
 } from "@/lib/resumeSchema";
 import {
-  formatTitleCase,
   parsePhone,
   combinePhone,
   COUNTRY_CODES,
   calculateResumeScore,
 } from "@/lib/utils";
+import { smartTitleCase, smartSentenceCase } from "@/lib/formatters";
 import {
   DndContext,
   closestCenter,
@@ -48,6 +49,8 @@ import {
   ScrollText,
   UserPlus,
   Info,
+  Loader2,
+  X,
 } from "lucide-react";
 
 interface ResumeFormProps {
@@ -150,6 +153,31 @@ export default function ResumeForm({
     "bg-surface-900 border border-surface-700/60 rounded-lg px-3 py-2.5 sm:py-2 text-base sm:text-sm text-white focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-all w-full cursor-pointer";
   const labelClass =
     "text-[11px] font-bold text-surface-400 mb-1.5 block uppercase tracking-wider";
+
+  // AI Enhancement hook
+  const {
+    enhance: aiEnhance,
+    enhancedText,
+    isLoading: aiLoading,
+    error: aiError,
+    cooldownRemaining,
+    clearResult: clearAIResult,
+  } = useAIEnhance();
+
+  const handleEnhanceClick = useCallback(() => {
+    aiEnhance(data.careerObjective);
+  }, [aiEnhance, data.careerObjective]);
+
+  const handleRetry = useCallback(() => {
+    aiEnhance(data.careerObjective, true); // bypass cache
+  }, [aiEnhance, data.careerObjective]);
+
+  const handleAcceptEnhanced = useCallback(() => {
+    if (enhancedText) {
+      updateCareerObjective(enhancedText);
+      clearAIResult();
+    }
+  }, [enhancedText, updateCareerObjective, clearAIResult]);
 
   const [expanded, setExpanded] = useState<Record<string, boolean>>({
     personal: true,
@@ -280,10 +308,13 @@ export default function ResumeForm({
   const handleAddLanguage = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       e.preventDefault();
-      const lang = langInput.trim();
-      const current = data.personal.languages || [];
-      if (lang && !current.includes(lang)) {
-        updatePersonalLanguages([...current, lang]);
+      const rawLang = langInput.trim();
+      if (rawLang) {
+        const lang = smartTitleCase(rawLang);
+        const current = data.personal.languages || [];
+        if (!current.includes(lang)) {
+          updatePersonalLanguages([...current, lang]);
+        }
         setLangInput("");
       }
     }
@@ -462,7 +493,7 @@ export default function ResumeForm({
                 value={data.personal.name}
                 onChange={(e) => updatePersonal("name", e.target.value)}
                 onBlur={(e) => {
-                  const formatted = formatTitleCase(e.target.value);
+                  const formatted = smartTitleCase(e.target.value);
                   if (formatted !== e.target.value) updatePersonal("name", formatted);
                 }}
               />
@@ -513,7 +544,7 @@ export default function ResumeForm({
                   updatePersonal("location", e.target.value)
                 }
                 onBlur={(e) => {
-                  const formatted = formatTitleCase(e.target.value);
+                  const formatted = smartTitleCase(e.target.value);
                   if (formatted !== e.target.value) updatePersonal("location", formatted);
                 }}
               />
@@ -654,46 +685,162 @@ export default function ResumeForm({
   const CareerObjectiveSection = () => {
     const charCount = data.careerObjective.length;
     const maxChars = 300;
+    const enhanceDisabled = aiLoading || cooldownRemaining > 0;
     return (
-      <section
-        className={`bg-surface-800/20 border border-surface-700/50 rounded-2xl overflow-hidden shadow-lg transition-opacity ${!visibleSections.careerObjective ? "opacity-50" : ""
-          }`}
-      >
-        <SectionHeader
-          id="careerObjective"
-          title="Summary & Objective"
-          icon={Target}
-          showReorder
-        />
-        {expanded.careerObjective && (
-          <div className="p-4 sm:p-5 animate-in slide-in-from-top-2 duration-200">
-            <label className={labelClass}>
-              Write a brief career objective
-            </label>
-            <InlineTip text="Keep it short (2–3 lines). Focus on skills and goals relevant to the role." />
-            <textarea
-              className={`${inputClass} min-h-[80px] resize-none leading-relaxed`}
-              rows={3}
-              maxLength={maxChars}
-              placeholder="Motivated student seeking an opportunity to apply my skills and contribute to innovative projects in a dynamic organization."
-              value={data.careerObjective}
-              onChange={(e) => updateCareerObjective(e.target.value)}
-            />
-            <div className="flex justify-end mt-1.5">
-              <span
-                className={`text-[11px] font-bold tracking-wide ${charCount >= 290
-                  ? "text-red-400"
-                  : charCount >= 250
-                    ? "text-amber-400"
-                    : "text-surface-500"
+      <>
+        <section
+          className={`bg-surface-800/20 border border-surface-700/50 rounded-2xl overflow-hidden shadow-lg transition-opacity ${!visibleSections.careerObjective ? "opacity-50" : ""
+            }`}
+        >
+          <SectionHeader
+            id="careerObjective"
+            title="Summary & Objective"
+            icon={Target}
+            showReorder
+          />
+          {expanded.careerObjective && (
+            <div className="p-4 sm:p-5 animate-in slide-in-from-top-2 duration-200">
+              <label className={labelClass}>
+                Write a brief career objective
+              </label>
+              <InlineTip text="Keep it short (2–3 lines). Focus on skills and goals relevant to the role." />
+              <textarea
+                className={`${inputClass} min-h-[80px] resize-none leading-relaxed`}
+                rows={3}
+                maxLength={maxChars}
+                placeholder="Motivated student seeking an opportunity to apply my skills and contribute to innovative projects in a dynamic organization."
+                value={data.careerObjective}
+                onChange={(e) => updateCareerObjective(e.target.value)}
+                onBlur={(e) => {
+                  const formatted = smartSentenceCase(e.target.value);
+                  if (formatted !== e.target.value) updateCareerObjective(formatted);
+                }}
+              />
+              <div className="flex items-center justify-between mt-2 gap-3">
+                {/* Enhance with AI button */}
+                <button
+                  onClick={handleEnhanceClick}
+                  disabled={enhanceDisabled}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-xl text-[12px] font-bold uppercase tracking-wider transition-all active:scale-95 ${
+                    enhanceDisabled
+                      ? "bg-surface-700/40 text-surface-500 cursor-not-allowed"
+                      : "bg-gradient-to-r from-brand-600 to-purple-600 hover:from-brand-500 hover:to-purple-500 text-white shadow-lg shadow-brand-500/20 hover:shadow-brand-500/30"
                   }`}
-              >
-                {charCount} / {maxChars}
-              </span>
+                >
+                  {aiLoading ? (
+                    <Loader2 size={14} className="animate-spin" />
+                  ) : (
+                    <Sparkles size={14} />
+                  )}
+                  {aiLoading
+                    ? "Enhancing..."
+                    : cooldownRemaining > 0
+                      ? `Please wait ${cooldownRemaining}s...`
+                      : "Enhance with AI"}
+                </button>
+
+                <span
+                  className={`text-[11px] font-bold tracking-wide ${charCount >= 290
+                    ? "text-red-400"
+                    : charCount >= 250
+                      ? "text-amber-400"
+                      : "text-surface-500"
+                    }`}
+                >
+                  {charCount} / {maxChars}
+                </span>
+              </div>
+
+              {/* Error display */}
+              {aiError && !enhancedText && (
+                <div className="mt-2 flex items-center gap-2 text-[12px] text-red-400 bg-red-500/10 border border-red-500/20 px-3 py-2 rounded-lg">
+                  <Info size={13} className="shrink-0" />
+                  <span>{aiError}</span>
+                </div>
+              )}
+            </div>
+          )}
+        </section>
+
+        {/* ============ AI Review Dialog (Modal) ============ */}
+        {enhancedText && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 animate-in fade-in duration-200">
+            {/* Backdrop */}
+            <div
+              className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+              onClick={clearAIResult}
+            />
+
+            {/* Modal */}
+            <div className="relative bg-surface-800 border border-surface-600/50 rounded-2xl shadow-2xl w-full max-w-lg animate-in zoom-in-95 slide-in-from-bottom-4 duration-300">
+              {/* Header */}
+              <div className="flex items-center justify-between p-5 border-b border-surface-700/50">
+                <div className="flex items-center gap-2.5">
+                  <div className="p-2 bg-brand-500/15 rounded-lg">
+                    <Sparkles size={18} className="text-brand-400" />
+                  </div>
+                  <div>
+                    <h3 className="text-[15px] font-bold text-white">AI-Enhanced Objective</h3>
+                    <p className="text-[11px] text-surface-400 mt-0.5">Review the suggestion below</p>
+                  </div>
+                </div>
+                <button
+                  onClick={clearAIResult}
+                  className="p-1.5 rounded-lg text-surface-400 hover:text-white hover:bg-surface-700/60 transition-colors"
+                >
+                  <X size={18} />
+                </button>
+              </div>
+
+              {/* Body */}
+              <div className="p-5">
+                {/* Original */}
+                <div className="mb-4">
+                  <span className="text-[10px] font-bold text-surface-500 uppercase tracking-widest">Original</span>
+                  <p className="mt-1.5 text-[13px] text-surface-300 leading-relaxed bg-surface-900/50 rounded-lg p-3 border border-surface-700/40">
+                    {data.careerObjective || <span className="italic text-surface-500">Empty</span>}
+                  </p>
+                </div>
+
+                {/* Enhanced */}
+                <div>
+                  <span className="text-[10px] font-bold text-brand-400 uppercase tracking-widest">Enhanced</span>
+                  <p className="mt-1.5 text-[13px] text-white leading-relaxed bg-brand-500/5 rounded-lg p-3 border border-brand-500/20">
+                    {enhancedText}
+                  </p>
+                </div>
+              </div>
+
+              {/* Actions */}
+              <div className="flex items-center gap-3 p-5 pt-0">
+                <button
+                  onClick={handleAcceptEnhanced}
+                  className="flex-1 bg-brand-600 hover:bg-brand-500 text-white px-4 py-2.5 rounded-xl font-bold text-[12px] uppercase tracking-wider transition-all active:scale-[0.98] shadow-lg shadow-brand-500/20"
+                >
+                  Accept
+                </button>
+                <button
+                  onClick={handleRetry}
+                  disabled={aiLoading || cooldownRemaining > 0}
+                  className="flex-1 bg-surface-700/50 hover:bg-surface-700 text-surface-200 px-4 py-2.5 rounded-xl font-bold text-[12px] uppercase tracking-wider transition-all active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed border border-surface-600/40"
+                >
+                  {aiLoading ? (
+                    <span className="flex items-center justify-center gap-2">
+                      <Loader2 size={13} className="animate-spin" /> Retrying...
+                    </span>
+                  ) : "Retry"}
+                </button>
+                <button
+                  onClick={clearAIResult}
+                  className="px-4 py-2.5 text-surface-400 hover:text-white hover:bg-surface-700/50 rounded-xl font-bold text-[12px] uppercase tracking-wider transition-all"
+                >
+                  Cancel
+                </button>
+              </div>
             </div>
           </div>
         )}
-      </section>
+      </>
     );
   };
 
@@ -810,7 +957,7 @@ export default function ResumeForm({
                                 value={edu.institution}
                                 onChange={(e) => updateArrayItem("education", edu.id, "institution", e.target.value)}
                                 onBlur={(e) => {
-                                  const f = formatTitleCase(e.target.value);
+                                  const f = smartTitleCase(e.target.value);
                                   if (f !== e.target.value) updateArrayItem("education", edu.id, "institution", f);
                                 }}
                               />
@@ -828,6 +975,11 @@ export default function ResumeForm({
                                 }
                                 value={edu.board}
                                 onChange={(e) => updateArrayItem("education", edu.id, "board", e.target.value)}
+                                onBlur={(e) => {
+                                  const f = smartTitleCase(e.target.value);
+                                  if (f !== e.target.value)
+                                    updateArrayItem("education", edu.id, "board", f);
+                                }}
                               />
                             </div>
 
@@ -846,8 +998,9 @@ export default function ResumeForm({
                                   value={edu.degree}
                                   onChange={(e) => updateArrayItem("education", edu.id, "degree", e.target.value)}
                                   onBlur={(e) => {
-                                    const f = formatTitleCase(e.target.value);
-                                    if (f !== e.target.value) updateArrayItem("education", edu.id, "degree", f);
+                                    const f = smartTitleCase(e.target.value);
+                                    if (f !== e.target.value)
+                                      updateArrayItem("education", edu.id, "degree", f);
                                   }}
                                 />
                               </div>
@@ -915,6 +1068,11 @@ export default function ResumeForm({
                               placeholder="e.g. Relevant Coursework, Achievements..."
                               value={edu.description}
                               onChange={(e) => updateArrayItem("education", edu.id, "description", e.target.value)}
+                              onBlur={(e) => {
+                                const f = smartSentenceCase(e.target.value);
+                                if (f !== e.target.value)
+                                  updateArrayItem("education", edu.id, "description", f);
+                              }}
                             />
                           </div>
                         </div>
@@ -1017,7 +1175,7 @@ export default function ResumeForm({
                                 value={exp.company}
                                 onChange={(e) => updateArrayItem("experience", exp.id, "company", e.target.value)}
                                 onBlur={(e) => {
-                                  const f = formatTitleCase(e.target.value);
+                                  const f = smartTitleCase(e.target.value);
                                   if (f !== e.target.value) updateArrayItem("experience", exp.id, "company", f);
                                 }}
                               />
@@ -1030,7 +1188,7 @@ export default function ResumeForm({
                                 value={exp.position}
                                 onChange={(e) => updateArrayItem("experience", exp.id, "position", e.target.value)}
                                 onBlur={(e) => {
-                                  const f = formatTitleCase(e.target.value);
+                                  const f = smartTitleCase(e.target.value);
                                   if (f !== e.target.value) updateArrayItem("experience", exp.id, "position", f);
                                 }}
                               />
@@ -1071,6 +1229,11 @@ export default function ResumeForm({
                               placeholder="- Led a team of..."
                               value={exp.description}
                               onChange={(e) => updateArrayItem("experience", exp.id, "description", e.target.value)}
+                              onBlur={(e) => {
+                                const f = smartSentenceCase(e.target.value);
+                                if (f !== e.target.value)
+                                  updateArrayItem("experience", exp.id, "description", f);
+                              }}
                             />
                           </div>
                         </div>
@@ -1173,7 +1336,7 @@ export default function ResumeForm({
                                 value={proj.name}
                                 onChange={(e) => updateArrayItem("projects", proj.id, "name", e.target.value)}
                                 onBlur={(e) => {
-                                  const f = formatTitleCase(e.target.value);
+                                  const f = smartTitleCase(e.target.value);
                                   if (f !== e.target.value) updateArrayItem("projects", proj.id, "name", f);
                                 }}
                               />
@@ -1205,6 +1368,11 @@ export default function ResumeForm({
                               placeholder="- Designed a marketing campaign... or - Built a full-stack application..."
                               value={proj.description}
                               onChange={(e) => updateArrayItem("projects", proj.id, "description", e.target.value)}
+                              onBlur={(e) => {
+                                const f = smartSentenceCase(e.target.value);
+                                if (f !== e.target.value)
+                                  updateArrayItem("projects", proj.id, "description", f);
+                              }}
                             />
                           </div>
                         </div>
@@ -1336,6 +1504,10 @@ export default function ResumeForm({
                     onChange={(e) =>
                       updateDeclaration("place", e.target.value)
                     }
+                    onBlur={(e) => {
+                      const f = smartTitleCase(e.target.value);
+                      if (f !== e.target.value) updateDeclaration("place", f);
+                    }}
                   />
                 </div>
                 <div>

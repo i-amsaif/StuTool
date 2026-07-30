@@ -5,49 +5,7 @@ export function cn(...classes: (string | undefined | false)[]) {
   return classes.filter(Boolean).join(" ");
 }
 
-/**
- * Converts a string to Title Case.
- * Preserves acronyms/known tech terms and handles prepositions.
- * Does NOT format emails, URLs, or descriptions.
- */
-const LOWERCASE_WORDS = new Set([
-  "a", "an", "the", "and", "but", "or", "for", "nor", "on", "at",
-  "to", "by", "in", "of", "with", "from", "as", "is",
-]);
 
-const PRESERVE_CASE_WORDS = new Set([
-  "HTML", "CSS", "HTML/CSS", "SQL", "MySQL", "NoSQL", "MongoDB", "AWS",
-  "GCP", "API", "REST", "iOS", "UI", "UX", "AI", "ML", "NLP", "Git",
-  "DevOps", "CI/CD", "PhD", "IIT", "NIT", "VTU", "CBSE", "ICSE",
-  "ISC", "SSLC", "HSC", "PUC", "B.Tech", "M.Tech", "B.E.", "M.E.",
-  "B.Sc", "M.Sc", "BCA", "MCA", "B.Com", "M.Com", "MBA",
-  "JavaScript", "TypeScript", "Node.js", "Next.js", "React",
-  "Python", "Kotlin", "Java",
-]);
-
-export function formatTitleCase(str: string): string {
-  if (!str || !str.trim()) return str;
-
-  return str
-    .split(/\s+/)
-    .map((word, index) => {
-      // Check if the word (case-insensitive) matches a preserved term
-      const preserved = Array.from(PRESERVE_CASE_WORDS).find(
-        (pw) => pw.toLowerCase() === word.toLowerCase()
-      );
-      if (preserved) return preserved;
-
-      // Don't capitalize prepositions unless they're the first word
-      if (index > 0 && LOWERCASE_WORDS.has(word.toLowerCase())) {
-        return word.toLowerCase();
-      }
-
-      // Standard title case: capitalize first letter
-      if (word.length === 0) return word;
-      return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
-    })
-    .join(" ");
-}
 
 /**
  * Country code list for phone number dropdown.
