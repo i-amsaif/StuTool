@@ -6,7 +6,7 @@
 
 Powerful online PDF tools and a professional Resume Builder — fast, simple, and privacy-focused.
 
-🌐 **Live Demo:** https://stutool.in
+🌐 **Live:** https://stutool.in
 
 </div>
 
