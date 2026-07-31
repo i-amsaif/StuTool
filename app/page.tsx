@@ -162,6 +162,60 @@ export default function HomePage() {
           ))}
         </div>
       </section>
+
+      {/* Get StuTool for Android */}
+      <section className="w-full max-w-6xl mx-auto px-4 sm:px-6 pb-24" id="android-section">
+        <div className="mb-6 sm:mb-10 text-center md:text-left">
+          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white mb-2 sm:mb-3">Get StuTool for Android</h2>
+          <p className="text-surface-200 text-sm sm:text-base">Download the app on your favourite store.</p>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-6">
+          {/* Google Play Store - Coming Soon */}
+          <div
+            className="glass-card rounded-xl sm:rounded-2xl p-5 sm:p-6 lg:p-8 flex flex-col items-center text-center opacity-60 cursor-not-allowed select-none animate-slide-up opacity-0"
+            style={{ animationDelay: '400ms' }}
+            id="card-google-play"
+          >
+            <div className="inline-flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-xl mb-4 overflow-hidden">
+              <img src="/android-assets/google-play-logo.png" alt="Google Play Store" className="w-full h-full object-contain" />
+            </div>
+            <h3 className="text-sm sm:text-lg font-bold text-white mb-1 tracking-tight">Google Play Store</h3>
+            <span className="text-xs text-surface-400 bg-white/5 px-3 py-1 rounded-full mt-1">Coming Soon</span>
+          </div>
+
+          {/* Indus App Store - Coming Soon */}
+          <div
+            className="glass-card rounded-xl sm:rounded-2xl p-5 sm:p-6 lg:p-8 flex flex-col items-center text-center opacity-60 cursor-not-allowed select-none animate-slide-up opacity-0"
+            style={{ animationDelay: '450ms' }}
+            id="card-indus-app-store"
+          >
+            <div className="inline-flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-xl mb-4 overflow-hidden">
+              <img src="/android-assets/indus-logo.png" alt="Indus App Store" className="w-full h-full object-contain" />
+            </div>
+            <h3 className="text-sm sm:text-lg font-bold text-white mb-1 tracking-tight">Indus App Store</h3>
+            <span className="text-xs text-surface-400 bg-white/5 px-3 py-1 rounded-full mt-1">Coming Soon</span>
+          </div>
+
+          {/* Download APK - links to /android */}
+          <Link
+            href="/android"
+            className="glass-card rounded-xl sm:rounded-2xl p-5 sm:p-6 lg:p-8 group transition-all hover:bg-white/[0.04] flex flex-col items-center text-center animate-slide-up opacity-0"
+            style={{ animationDelay: '500ms' }}
+            id="card-download-apk"
+          >
+            <div className="inline-flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-xl bg-gradient-to-br from-brand-500 to-red-700 shadow-lg text-white mb-4 transition-transform group-hover:scale-110">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="7 10 12 15 17 10" />
+                <line x1="12" y1="15" x2="12" y2="3" />
+              </svg>
+            </div>
+            <h3 className="text-sm sm:text-lg font-bold text-white mb-1 tracking-tight">Download APK</h3>
+            <span className="text-xs text-surface-300 mt-1">Get the latest version</span>
+          </Link>
+        </div>
+      </section>
     </div>
   );
 }
