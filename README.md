@@ -24,10 +24,11 @@ Powerful online PDF tools and a professional Resume Builder — fast, simple, an
 
 ### 📄 Resume Builder
 
-- Professional resume templates
-- Easy editing experience
-- Instant PDF export
-- Student-friendly layouts
+- ✨ **AI Career Objective Enhancer** (Powered by Gemini, Groq & OpenRouter)
+- 📝 **Smart Formatting Engine** (Auto-capitalization & Title casing)
+- 📄 **Fixed A4 Single-Page Layout Engine** (Consistent PDF export)
+- 🎨 Professional & Modern resume templates
+- ⚡ Instant PDF export
 
 ### ⚡ Designed For
 
@@ -46,6 +47,7 @@ Powerful online PDF tools and a professional Resume Builder — fast, simple, an
 - **TypeScript**
 - **Tailwind CSS**
 - **Vercel**
+- **Gemini / Groq / OpenRouter API** (AI Integration)
 
 ---
 
