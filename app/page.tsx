@@ -75,7 +75,7 @@ export default function HomePage() {
   return (
     <div className="flex flex-col items-center">
       {/* Mobile-First Hero Section indicating Resume Builder */}
-      <section className="w-full relative flex flex-col md:flex-row items-center justify-between gap-8 md:gap-10 pt-6 sm:pt-10 md:pt-24 pb-8 sm:pb-12 md:pb-20 px-4 sm:px-6 md:px-12 max-w-6xl mx-auto min-h-[60vh]">
+      <section className="w-full relative flex flex-col md:flex-row items-center justify-between gap-8 md:gap-10 pt-16 sm:pt-20 md:pt-24 pb-12 sm:pb-16 md:pb-20 px-4 sm:px-6 md:px-12 max-w-6xl mx-auto min-h-[60vh]">
         <div className="flex-1 flex flex-col items-center md:items-start text-center md:text-left z-10 w-full">
           <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-brand-500/10 border border-brand-500/20 text-brand-400 text-[11px] sm:text-xs md:text-sm font-semibold mb-4 sm:mb-6 md:mb-8 animate-fade-in opacity-0">
             <span className="relative flex h-2 sm:h-2.5 w-2 sm:w-2.5">

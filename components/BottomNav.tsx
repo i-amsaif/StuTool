@@ -34,7 +34,7 @@ export default function BottomNav() {
       )
     },
     {
-      name: "Resume",
+      name: "Resume Builder",
       href: "/resume-builder",
       icon: (
         <svg fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5 sm:w-6 sm:h-6">
