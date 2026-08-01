@@ -75,9 +75,9 @@ export default function HomePage() {
   return (
     <div className="flex flex-col items-center">
       {/* Mobile-First Hero Section indicating Resume Builder */}
-      <section className="w-full relative flex flex-col md:flex-row items-center justify-between gap-10 pt-10 sm:pt-16 md:pt-24 pb-12 sm:pb-20 px-4 sm:px-6 md:px-12 max-w-6xl mx-auto min-h-[60vh]">
+      <section className="w-full relative flex flex-col md:flex-row items-center justify-between gap-8 md:gap-10 pt-6 sm:pt-10 md:pt-24 pb-8 sm:pb-12 md:pb-20 px-4 sm:px-6 md:px-12 max-w-6xl mx-auto min-h-[60vh]">
         <div className="flex-1 flex flex-col items-center md:items-start text-center md:text-left z-10 w-full">
-          <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-brand-500/10 border border-brand-500/20 text-brand-400 text-xs sm:text-sm font-semibold mb-6 sm:mb-8 animate-fade-in opacity-0">
+          <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-brand-500/10 border border-brand-500/20 text-brand-400 text-[11px] sm:text-xs md:text-sm font-semibold mb-4 sm:mb-6 md:mb-8 animate-fade-in opacity-0">
             <span className="relative flex h-2 sm:h-2.5 w-2 sm:w-2.5">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 sm:h-2.5 w-2 sm:w-2.5 bg-brand-500"></span>
@@ -85,19 +85,19 @@ export default function HomePage() {
             StuTool Resume Builder
           </div>
           
-          <h1 className="animate-fade-in opacity-0 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-white mb-4 sm:mb-6 leading-tight">
+          <h1 className="animate-fade-in opacity-0 text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-white mb-3 sm:mb-4 md:mb-6 leading-tight">
             Build Your Resume <br className="hidden md:block"/> in <span className="text-gradient">Seconds</span>
           </h1>
-          <p className="animate-fade-in opacity-0 animate-delay-100 text-lg sm:text-xl md:text-2xl text-surface-200 mb-8 sm:mb-10 max-w-xl">
+          <p className="animate-fade-in opacity-0 animate-delay-100 text-base sm:text-lg md:text-2xl text-surface-200 mb-6 sm:mb-8 md:mb-10 max-w-xl">
             Free, fast, no signup required. Create a professional design, ready for ATS.
           </p>
           
           <Link 
             href="/resume-builder"
-            className="animate-fade-in opacity-0 animate-delay-200 inline-flex items-center justify-center gap-2 px-6 sm:px-10 py-4 sm:py-5 text-lg sm:text-xl font-bold text-white bg-gradient-to-r from-brand-600 to-red-600 rounded-full hover:from-brand-500 hover:to-red-500 transition-all transform hover:scale-105 shadow-xl hover:shadow-brand-500/30 w-full sm:w-auto"
+            className="animate-fade-in opacity-0 animate-delay-200 inline-flex items-center justify-center gap-2 px-5 py-3 sm:px-6 sm:py-3.5 md:px-10 md:py-5 text-base sm:text-lg md:text-xl font-bold text-white bg-gradient-to-r from-brand-600 to-red-600 rounded-full hover:from-brand-500 hover:to-red-500 transition-all transform hover:scale-105 shadow-xl hover:shadow-brand-500/30 w-full sm:w-auto"
           >
             Create Resume
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="md:w-6 md:h-6">
               <path d="M5 12h14" />
               <path d="m12 5 7 7-7 7" />
             </svg>
@@ -163,8 +163,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Get StuTool for Android */}
-      <section className="w-full max-w-6xl mx-auto px-4 sm:px-6 pb-24" id="android-section">
+      {/* Get StuTool for Android — Mobile only */}
+      <section className="w-full max-w-6xl mx-auto px-4 sm:px-6 pb-24 md:hidden" id="download-section">
         <div className="mb-6 sm:mb-10 text-center md:text-left">
           <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white mb-2 sm:mb-3">Get StuTool for Android</h2>
           <p className="text-surface-200 text-sm sm:text-base">Download the app on your favourite store.</p>

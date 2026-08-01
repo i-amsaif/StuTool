@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 
 const navLinks = [
   { name: "Home", href: "/" },
@@ -13,6 +13,14 @@ const navLinks = [
 export default function Header() {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const isHomePage = pathname === "/";
+
+  const scrollToDownload = useCallback(() => {
+    const section = document.getElementById("download-section");
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, []);
 
   return (
     <header className="sticky top-0 z-50 w-full glass border-b border-white/[0.06]">
@@ -57,29 +65,58 @@ export default function Header() {
           })}
         </nav>
 
-        {/* Mobile menu button */}
-        <button
-          onClick={() => setMobileOpen(!mobileOpen)}
-          className="md:hidden flex flex-col items-center justify-center w-10 h-10 rounded-lg hover:bg-white/[0.06] transition-colors"
-          aria-label="Toggle navigation menu"
-          id="mobile-menu-btn"
-        >
-          <span
-            className={`block h-0.5 w-5 rounded-full bg-surface-200 transition-all duration-300 ${
-              mobileOpen ? "rotate-45 translate-y-[3px]" : ""
-            }`}
-          />
-          <span
-            className={`block h-0.5 w-5 rounded-full bg-surface-200 transition-all duration-300 mt-1 ${
-              mobileOpen ? "opacity-0" : ""
-            }`}
-          />
-          <span
-            className={`block h-0.5 w-5 rounded-full bg-surface-200 transition-all duration-300 mt-1 ${
-              mobileOpen ? "-rotate-45 -translate-y-[7px]" : ""
-            }`}
-          />
-        </button>
+        {/* Mobile actions */}
+        <div className="flex items-center gap-1.5 sm:gap-2 md:hidden">
+          {/* Mobile-only Download Button — visible only on homepage */}
+          {isHomePage && (
+            <button
+              onClick={scrollToDownload}
+              className="flex items-center gap-1 px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full bg-gradient-to-r from-brand-600 to-red-600 text-white text-[11px] sm:text-xs font-semibold shadow-sm hover:from-brand-500 hover:to-red-500 transition-all duration-300 active:scale-95"
+              aria-label="Download StuTool APK"
+              id="header-download-btn"
+            >
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="7 10 12 15 17 10" />
+                <line x1="12" y1="15" x2="12" y2="3" />
+              </svg>
+              Download
+            </button>
+          )}
+
+          {/* Mobile menu button */}
+          <button
+            onClick={() => setMobileOpen(!mobileOpen)}
+            className="flex flex-col items-center justify-center w-9 h-9 rounded-lg hover:bg-white/[0.06] transition-colors"
+            aria-label="Toggle navigation menu"
+            id="mobile-menu-btn"
+          >
+            <span
+              className={`block h-[2px] w-5 rounded-full bg-surface-200 transition-all duration-300 ${
+                mobileOpen ? "rotate-45 translate-y-[3px]" : ""
+              }`}
+            />
+            <span
+              className={`block h-[2px] w-5 rounded-full bg-surface-200 transition-all duration-300 mt-1 ${
+                mobileOpen ? "opacity-0" : ""
+              }`}
+            />
+            <span
+              className={`block h-[2px] w-5 rounded-full bg-surface-200 transition-all duration-300 mt-1 ${
+                mobileOpen ? "-rotate-45 -translate-y-[7px]" : ""
+              }`}
+            />
+          </button>
+        </div>
       </div>
 
       {/* Mobile nav dropdown */}
