@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { Shield, Lock, FileText, Camera, Share2, Wifi } from 'lucide-react';
+import { Shield, Lock, FileText, Camera, Share2, Wifi, Mail } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Privacy Policy - StuTool Android App',
@@ -141,6 +141,35 @@ export default function AndroidPrivacyPolicy() {
           <p className="text-surface-200 sm:ml-11">
             This privacy policy may be updated in future versions to reflect new offline tools or features.
           </p>
+        </div>
+
+        {/* 8. Contact Us */}
+        <div className="space-y-4">
+          <h2 className="text-xl sm:text-2xl font-bold flex items-center gap-3 text-white">
+            <span className="flex items-center justify-center w-8 h-8 rounded-full bg-brand-500/20 text-brand-400 text-sm border border-brand-500/30">8</span>
+            Contact Us
+          </h2>
+          <p className="text-surface-200 sm:ml-11 mb-2">
+            If you have any questions about this Privacy Policy, you can contact us:
+          </p>
+          <ul className="space-y-3 sm:ml-11">
+            <li className="flex items-center gap-3 text-surface-200">
+              <span className="font-semibold text-white min-w-24">Developer:</span> 
+              Mohammed Saif
+            </li>
+            <li className="flex items-center gap-3 text-surface-200">
+              <span className="font-semibold text-white min-w-24">Email:</span> 
+              <a href="mailto:i.am.mohd.saif2006@gmail.com" className="text-brand-400 hover:underline flex items-center gap-2">
+                <Mail className="w-4 h-4" /> i.am.mohd.saif2006@gmail.com
+              </a>
+            </li>
+            <li className="flex items-center gap-3 text-surface-200">
+              <span className="font-semibold text-white min-w-24">Website:</span> 
+              <a href="https://www.stutool.in" target="_blank" rel="noopener noreferrer" className="text-brand-400 hover:underline">
+                https://www.stutool.in
+              </a>
+            </li>
+          </ul>
         </div>
       </div>
       
