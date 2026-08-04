@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Header from "@/components/Header";
 import BottomNav from "@/components/BottomNav";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const metadata: Metadata = {
   title: "StuTool — Student Productivity Toolkit",
@@ -20,6 +21,7 @@ export default function RootLayout({
         <Header />
         <main className="relative z-10 pb-20 md:pb-0">{children}</main>
         <BottomNav />
+        <SpeedInsights />
       </body>
     </html>
   );
