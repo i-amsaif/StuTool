@@ -184,18 +184,21 @@ export default function HomePage() {
             <span className="text-xs text-surface-400 bg-white/5 px-3 py-1 rounded-full mt-1">Coming Soon</span>
           </div>
 
-          {/* Indus App Store - Coming Soon */}
-          <div
-            className="glass-card rounded-xl sm:rounded-2xl p-5 sm:p-6 lg:p-8 flex flex-col items-center text-center opacity-60 cursor-not-allowed select-none animate-slide-up opacity-0"
+          {/* Indus App Store - Available Now */}
+          <a
+            href="https://indusapp.store/pl3q2rxo"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="glass-card rounded-xl sm:rounded-2xl p-5 sm:p-6 lg:p-8 group transition-all hover:bg-white/[0.04] flex flex-col items-center text-center animate-slide-up opacity-0"
             style={{ animationDelay: '450ms' }}
             id="card-indus-app-store"
           >
-            <div className="inline-flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-xl mb-4 overflow-hidden">
-              <img src="/android-assets/indus-logo.png" alt="Indus App Store" className="w-full h-full object-contain" />
+            <div className="inline-flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-xl mb-4 overflow-hidden transition-transform group-hover:scale-110">
+              <img src="/android-assets/indus-logo.png" alt="Indus App Store" className="w-full h-full object-contain pointer-events-none select-none" draggable={false} />
             </div>
             <h3 className="text-sm sm:text-lg font-bold text-white mb-1 tracking-tight">Indus App Store</h3>
-            <span className="text-xs text-surface-400 bg-white/5 px-3 py-1 rounded-full mt-1">Coming Soon</span>
-          </div>
+            <span className="text-xs text-brand-400 mt-1">Available Now</span>
+          </a>
 
           {/* Download APK - links to /android */}
           <Link

@@ -106,8 +106,9 @@ export default function AndroidPage() {
                 alt="StuTool App Icon"
                 width={96}
                 height={96}
-                className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl shadow-lg"
+                className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl shadow-lg pointer-events-none select-none"
                 priority
+                draggable={false}
               />
             </div>
 
@@ -136,19 +137,38 @@ export default function AndroidPage() {
                 ))}
               </div>
 
-              {/* Download button */}
-              <a
-                href={APP_CONFIG.android.downloadUrl}
-                download
-                className="inline-flex items-center gap-2 mt-6 px-6 py-3 rounded-xl bg-green-500 hover:bg-green-400 text-surface-900 font-semibold text-sm sm:text-base transition-colors duration-200 shadow-lg shadow-green-500/20 animate-fade-in opacity-0 animate-delay-400"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                  <polyline points="7 10 12 15 17 10" />
-                  <line x1="12" y1="15" x2="12" y2="3" />
-                </svg>
-                Download APK
-              </a>
+              {/* Download buttons */}
+              <div className="flex flex-wrap items-center gap-3 mt-6 animate-fade-in opacity-0 animate-delay-400">
+                <a
+                  href={APP_CONFIG.android.downloadUrl}
+                  download
+                  className="inline-flex items-center justify-center gap-2 h-12 px-6 rounded-xl bg-green-500 hover:bg-green-400 text-surface-900 font-semibold text-sm sm:text-base transition-colors duration-200 shadow-lg shadow-green-500/20"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                    <polyline points="7 10 12 15 17 10" />
+                    <line x1="12" y1="15" x2="12" y2="3" />
+                  </svg>
+                  Download APK
+                </a>
+
+                <a 
+                  href="https://indusapp.store/pl3q2rxo"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block h-12 hover:opacity-90 transition-opacity"
+                >
+                  <Image 
+                    src="/android-assets/badge-black-background-english.png"
+                    alt="Get it on Indus App Store"
+                    width={160}
+                    height={48}
+                    className="h-full w-auto object-contain pointer-events-none select-none"
+                    draggable={false}
+                    priority
+                  />
+                </a>
+              </div>
             </div>
           </section>
 
@@ -199,7 +219,8 @@ export default function AndroidPage() {
                     alt={`StuTool screenshot ${i + 1}`}
                     width={280}
                     height={560}
-                    className="w-full h-auto object-cover"
+                    className="w-full h-auto object-cover pointer-events-none select-none"
+                    draggable={false}
                   />
                 </div>
               ))}
