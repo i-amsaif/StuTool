@@ -67,7 +67,7 @@ Powerful online PDF tools and a professional Resume Builder — fast, simple, an
 <h2 align="center">🌐 Web App Preview</h2>
 
 <p align="center">
-  <img src="images/stutoolwebss1.png" width="900" alt="StuTool Web Desktop Preview"/>
+  <img src="public/stutoolwebss1.png" width="900" alt="StuTool Web Desktop Preview"/>
 </p>
 
 ---
