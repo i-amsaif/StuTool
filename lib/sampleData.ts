@@ -3,14 +3,14 @@ import { ResumeData } from "./resumeSchema";
 export const fresherResume: ResumeData = {
   personal: {
     name: "Mohammed Saif",
-    email: "mohammedsaif@gmail.com",
-    phone: "+91 98765 43210",
+    email: "email@example.com",
+    phone: "+91 9876543210",
     location: "Bengaluru, Karnataka",
     linkedin: "linkedin.com/in/i-amsaif",
     github: "github.com/i-amsaif",
   },
   careerObjective:
-    "Passionate Computer Science student with hands-on experience in full-stack development and mobile app engineering. Seeking to leverage my skills in React, Next.js, and Kotlin to contribute to impactful software products.",
+    "Passionate Computer Science student with hands-on experience in full-stack development and mobile engineering. Seeking to leverage my skills in React and Kotlin to contribute to impactful software products.",
   education: [
     {
       id: "edu-1",
@@ -21,62 +21,31 @@ export const fresherResume: ResumeData = {
       marksType: "CGPA",
       marks: "8.2",
       year: "2026",
-      description: "Relevant Coursework: Data Structures, DBMS, Web Technologies, Software Engineering.",
-    },
-    {
-      id: "edu-2",
-      level: "12th",
-      institution: "National PU College",
-      board: "KSEAB",
-      degree: "",
-      marksType: "Percentage",
-      marks: "88",
-      year: "2022",
-      description: "EBACS",
-    },
-    {
-      id: "edu-3",
-      level: "10th",
-      institution: "Acharya High School",
-      board: "KSEAB",
-      degree: "",
-      marksType: "Percentage",
-      marks: "91",
-      year: "2020",
-      description: "",
+      description: "Coursework: Data Structures, DBMS, Web Tech.",
     },
   ],
   experience: [],
   projects: [
     {
       id: "proj-1",
-      name: "StuTool - Student Utility App",
+      name: "StuTool",
       link: "github.com/i-amsaif/StuTool",
       description:
-        "• Built a cross-platform student toolkit with PDF tools (merge, compress, extract) and a resume builder.\n• Developed the Android app in Kotlin with Jetpack Compose and the web app using Next.js.\n• Implemented client-side PDF processing with no server uploads for privacy.",
+        "• Built a cross-platform toolkit with a local PDF tool suite and resume builder.\n• Developed in Kotlin with Jetpack Compose.",
     },
     {
       id: "proj-2",
-      name: "Online Job Portal",
-      link: "github.com/i-amsaif/job-portal",
+      name: "Finvovo",
+      link: "github.com/i-amsaif/Finvovo",
       description:
-        "• Developed a full-stack job portal with separate dashboards for admins, employers, and job seekers.\n• Built using PHP, MySQL, and Bootstrap with role-based access control.\n• Features include job posting, application tracking, and search filters.",
+        "• Developed a Android App for Personal & Business Ledger Management.\n• Developed in Kotlin with Jetpack Compose.",
     },
   ],
-  skills: [
-    "React",
-    "Next.js",
-    "JavaScript",
-    "Kotlin",
-    "Python",
-    "MySQL",
-    "Git",
-    "HTML/CSS",
-  ],
+  skills: ["React", "Kotlin", "Next.js", "Java", "HTML/CSS"],
   declaration: {
     enabled: true,
-    place: "Mangaluru",
-    date: new Date().toISOString().split("T")[0],
+    place: "Bengaluru",
+    date: "2026-04-03",
   },
   sectionOrder: [
     "personal",
@@ -92,14 +61,14 @@ export const fresherResume: ResumeData = {
 export const experiencedResume: ResumeData = {
   personal: {
     name: "Mohammed Saif",
-    email: "mohammed.saif.dev@gmail.com",
+    email: "email@example.com",
     phone: "+91 9876543210",
     location: "Bengaluru, Karnataka",
-    linkedin: "linkedin.com/in/mohammedsaif",
+    linkedin: "linkedin.com/in/i-amsaif",
     github: "github.com/i-amsaif",
   },
   careerObjective:
-    "Experienced software engineer with 6+ years in full-stack development, seeking a leadership role to drive scalable product engineering and mentor high-performing teams.",
+    "Experienced software engineer with 6+ years in full-stack development, seeking a leadership role to drive scalable product engineering.",
   education: [
     {
       id: "edu-1",
@@ -110,18 +79,7 @@ export const experiencedResume: ResumeData = {
       marksType: "CGPA",
       marks: "9.1",
       year: "2018",
-      description: "Thesis on Distributed Microservices Architecture.",
-    },
-    {
-      id: "edu-1",
-      level: "Undergraduate",
-      institution: "National Degree College",
-      board: "BNU",
-      degree: "B.C.A",
-      marksType: "CGPA",
-      marks: "8.2",
-      year: "2026",
-      description: "Relevant Coursework: Data Structures, DBMS, Web Technologies, Software Engineering.",
+      description: "",
     },
   ],
   experience: [
@@ -132,7 +90,7 @@ export const experiencedResume: ResumeData = {
       startDate: "Mar 2021",
       endDate: "Present",
       description:
-        "• Led a team of 8 engineers in building a scalable microservices architecture for a banking platform.\n• Reduced system latency by 40% through database optimization and Redis caching.\n• Mentored junior developers and established code review standards.",
+        "• Led a team of 8 engineers building microservices.\n• Reduced system latency by 40% through Redis caching.",
     },
     {
       id: "exp-2",
@@ -141,7 +99,7 @@ export const experiencedResume: ResumeData = {
       startDate: "Jul 2018",
       endDate: "Feb 2021",
       description:
-        "• Developed and maintained 3 enterprise web applications using the MERN stack.\n• Improved API response times by 35% through query optimization.\n• Integrated Razorpay payment gateway for client e-commerce platform.",
+        "• Maintained 3 enterprise MERN web applications.\n• Improved API response times by 35%.",
     },
   ],
   projects: [
@@ -150,25 +108,14 @@ export const experiencedResume: ResumeData = {
       name: "Open Source Analytics Dashboard",
       link: "github.com/i-amsaif/analytics-dash",
       description:
-        "• Built a lightweight analytics dashboard used by 500+ developers.\n• Featured on GitHub Trending for JavaScript projects.",
+        "• Built a lightweight dashboard used by 500+ developers.",
     },
   ],
-  skills: [
-    "React",
-    "Next.js",
-    "Node.js",
-    "TypeScript",
-    "Java",
-    "Spring Boot",
-    "AWS",
-    "Docker",
-    "MongoDB",
-    "System Design",
-  ],
+  skills: ["React", "Next.js", "Node.js", "TypeScript", "AWS", "MongoDB"],
   declaration: {
     enabled: false,
     place: "",
-    date: new Date().toISOString().split("T")[0],
+    date: "2026-04-03",
   },
   sectionOrder: [
     "personal",
