@@ -505,7 +505,7 @@ export default function ResumeBuilderPage() {
           <div className="flex items-center gap-2 ml-4">
           </div>
           <div className="flex items-center gap-2 ml-2 relative group">
-            <button className="flex items-center gap-1.5 text-xs font-medium bg-brand-500/10 hover:bg-brand-500/20 text-brand-300 border border-brand-500/20 px-2.5 py-1.5 rounded transition-colors">
+            <button className="flex items-center gap-1.5 text-xs font-medium bg-surface-800 hover:bg-surface-700 text-surface-200 border border-surface-700 px-2.5 py-1.5 rounded transition-colors">
               <FileSignature size={14} /> Load Sample ▼
             </button>
             <div className="absolute top-8 left-0 hidden group-hover:flex flex-col bg-surface-800 border border-surface-700 shadow-xl rounded py-1 min-w-[140px] z-50">
@@ -567,7 +567,7 @@ export default function ResumeBuilderPage() {
           </button>
           <button
             onClick={() => handlePrint()}
-            className="px-4 py-1.5 bg-brand-600 hover:bg-brand-500 text-white text-sm font-medium rounded-lg shadow-lg shadow-brand-500/20 transition-all flex items-center gap-2 active:scale-95"
+            className="px-4 py-2 bg-surface-100 text-surface-900 hover:bg-white text-sm font-bold rounded-lg shadow-sm hover:shadow-md transition-all flex items-center gap-2 active:scale-95"
           >
             <Download size={16} /> Export PDF
           </button>

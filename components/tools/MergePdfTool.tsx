@@ -73,7 +73,7 @@ export default function MergePdfTool() {
             disabled={files.length < 2 || isProcessing}
             className={`inline-flex items-center justify-center px-6 py-3 rounded-xl font-medium text-white transition-all duration-300 ${
               files.length < 2 || isProcessing
-                ? "bg-surface-700 cursor-not-allowed text-surface-200"
+                ? "bg-surface-800 cursor-not-allowed text-surface-400 border border-surface-700"
                 : "bg-gradient-to-r from-brand-500 to-red-700 hover:-translate-y-0.5 shadow-[0_4px_15px_rgba(233,3,2,0.3)] hover:shadow-[0_6px_25px_rgba(233,3,2,0.45)]"
             }`}
           >

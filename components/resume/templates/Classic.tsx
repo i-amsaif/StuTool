@@ -243,7 +243,7 @@ export default function ClassicTemplate({ data }: { data: ResumeData }) {
                   document.getElementById("input-personal-name")?.focus()
                 }
               >
-                <h1 className="text-[2.5rem] font-bold uppercase tracking-wider mb-2 leading-tight group-hover:text-brand-700 transition-colors break-words">
+                <h1 className="text-[2.5rem] text-black font-bold uppercase tracking-wider mb-2 leading-tight group-hover:text-brand-700 transition-colors break-words">
                   {personal.name || "YOUR NAME"}
                 </h1>
                 {hasContactInfo ? (

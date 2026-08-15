@@ -281,7 +281,7 @@ export default function MinimalTemplate({ data }: MinimalTemplateProps) {
                   document.getElementById("input-personal-name")?.focus()
                 }
               >
-                <h1 className="text-3xl font-bold mb-2 group-hover:text-brand-600 transition-colors break-words">
+                <h1 className="text-3xl text-black font-bold mb-2 group-hover:text-brand-600 transition-colors break-words">
                   {personal.name || "Your Name"}
                 </h1>
                 {hasContactInfo ? (
@@ -332,7 +332,7 @@ export default function MinimalTemplate({ data }: MinimalTemplateProps) {
                     )}
                   </>
                 ) : (
-                  <p className="text-sm text-brand-500 italic font-medium">
+                  <p className="text-sm text-gray-400 italic font-medium">
                     Click here to add your contact details
                   </p>
                 )}

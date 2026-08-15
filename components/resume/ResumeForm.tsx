@@ -148,9 +148,9 @@ export default function ResumeForm({
   onEducationLevelChange,
 }: ResumeFormProps) {
   const inputClass =
-    "bg-surface-900 border border-surface-700/60 rounded-lg px-3 py-2.5 sm:py-2 text-base sm:text-sm text-white focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-all w-full placeholder-surface-500";
+    "bg-surface-950/50 border border-surface-700 rounded-lg px-3 py-2.5 sm:py-2 text-base sm:text-sm text-white focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-all w-full placeholder-surface-500";
   const selectClass =
-    "bg-surface-900 border border-surface-700/60 rounded-lg px-3 py-2.5 sm:py-2 text-base sm:text-sm text-white focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-all w-full cursor-pointer";
+    "bg-surface-950/50 border border-surface-700 rounded-lg px-3 py-2.5 sm:py-2 text-base sm:text-sm text-white focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-all w-full cursor-pointer";
   const labelClass =
     "text-[11px] font-bold text-surface-400 mb-1.5 block uppercase tracking-wider";
 

@@ -49,7 +49,7 @@ function SortablePdfItem({ item, onRemove }: { item: PdfFile; onRemove: () => vo
     <div
       ref={setNodeRef}
       style={style}
-      className="flex items-center justify-between p-3 mb-2 rounded-xl bg-surface-900/50 border border-white/[0.06] hover:border-brand-500/30 transition-colors group"
+      className="flex items-center justify-between p-3 mb-2 rounded-xl bg-surface-800/40 border border-surface-200/5 hover:border-surface-200/20 hover:bg-surface-700/50 transition-all shadow-sm group"
     >
       <div className="flex items-center gap-3 overflow-hidden">
         {/* Drag Handle */}
@@ -206,12 +206,12 @@ export default function FileUploader({
         onDragLeave={isUploadDisabled ? undefined : handleDragLeave}
         onDrop={isUploadDisabled ? undefined : handleDrop}
         onClick={() => !isUploadDisabled && fileInputRef.current?.click()}
-        className={`border-2 border-dashed rounded-2xl p-10 sm:p-12 text-center transition-all duration-300 flex flex-col items-center justify-center group ${
+        className={`border-2 border-dashed rounded-2xl p-10 sm:p-12 text-center transition-all duration-300 flex flex-col items-center justify-center group relative overflow-hidden ${
           isUploadDisabled 
-            ? "border-surface-800 opacity-50 cursor-not-allowed bg-surface-900/50" 
+            ? "border-surface-800 opacity-50 cursor-not-allowed bg-surface-900/30" 
             : isDragging 
-              ? "border-brand-400 bg-brand-500/10 scale-[1.02]" 
-              : "border-surface-700 hover:border-brand-400 cursor-pointer bg-surface-900/50"
+              ? "border-brand-500 bg-brand-500/10 scale-[1.02] shadow-[0_0_40px_rgba(233,3,2,0.15)]" 
+              : "border-surface-600 hover:border-brand-500/50 cursor-pointer bg-surface-900/30 hover:bg-surface-800/40"
         }`}
       >
         <input

@@ -125,7 +125,7 @@ export default function ModernTemplate({ data }: { data: ResumeData }) {
             personal.linkedin ||
             personal.github
           ) && (
-            <p className="text-xs text-brand-500 italic font-medium">
+            <p className="text-xs text-slate-400 italic font-medium">
               Click here to add contact info
             </p>
           )}
