@@ -1,10 +1,10 @@
 "use client";
 
 import React from "react";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 
 export const ResumeMockup = () => {
-  const container = {
+  const container: Variants = {
     hidden: { opacity: 1 },
     show: {
       opacity: 1,
@@ -12,7 +12,7 @@ export const ResumeMockup = () => {
     },
   };
 
-  const lineVariants = {
+  const lineVariants: Variants = {
     hidden: { opacity: 0.3, scaleX: 0.8, originX: 0 },
     show: { 
       opacity: [0.3, 1, 0.3], 
@@ -21,7 +21,7 @@ export const ResumeMockup = () => {
     },
   };
   
-  const pulseVariants = {
+  const pulseVariants: Variants = {
     hidden: { opacity: 0.4 },
     show: { 
       opacity: [0.4, 0.8, 0.4], 

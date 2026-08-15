@@ -163,6 +163,7 @@ export default function PdfToImageTool() {
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 max-h-[60vh] overflow-y-auto pr-2 custom-scrollbar">
             {images.map((img) => (
               <div key={img.pageNumber} className="relative group bg-surface-800 rounded-xl overflow-hidden border border-surface-700 aspect-[1/1.4] flex flex-col items-center">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={img.dataUrl} alt={`Page ${img.pageNumber}`} className="w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                   <a

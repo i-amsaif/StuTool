@@ -180,6 +180,7 @@ export default function HomePage() {
             id="card-google-play"
           >
             <div className="inline-flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-xl mb-4 overflow-hidden">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/android-assets/google-play-logo.png" alt="Google Play Store" className="w-full h-full object-contain" />
             </div>
             <h3 className="text-sm sm:text-lg font-bold text-white mb-1 tracking-tight">Google Play Store</h3>
@@ -196,6 +197,7 @@ export default function HomePage() {
             id="card-indus-app-store"
           >
             <div className="inline-flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-xl mb-4 overflow-hidden transition-transform group-hover:scale-110">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/android-assets/indus-logo.png" alt="Indus App Store" className="w-full h-full object-contain pointer-events-none select-none" draggable={false} />
             </div>
             <h3 className="text-sm sm:text-lg font-bold text-white mb-1 tracking-tight">Indus App Store</h3>

@@ -207,6 +207,7 @@ export default function ResumeForm({
     if (phoneNumber !== parsed.number) {
       setPhoneNumber(parsed.number);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data.personal.phone]);
 
   const handlePhoneChange = (newCode?: string, newNumber?: string) => {
